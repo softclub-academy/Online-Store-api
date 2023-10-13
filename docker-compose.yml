@@ -1,0 +1,38 @@
+﻿version: '3.4'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres_demo
+    ports:
+      - "5404:5432"
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    networks:
+      - postgres-network
+
+  webapi:
+    platform: linux/amd64
+    image: shodmon/online-store
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8072:80"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=https://+:80
+    networks:
+      - postgres-network
+
+networks:
+  postgres-network:
+    driver: bridge
+
+volumes:
+  postgresql-data:
