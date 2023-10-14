@@ -9,13 +9,14 @@ namespace Infrastructure.Services.TelevisionService;
 
 public class TelevisionService(ApplicationContext context) : ITelevisionService
 {
-    public async Task<Response<List<GetTelevisionDto>>> GetTelevision()
+    public async Task<Response<List<GetTelevisionDto>>> GetTelevisions()
     {
         try
         {
             var televisions = await context.Televisions.Select(t => new GetTelevisionDto()
             {
                 Id = t.Id,
+                SubCategory = t.SubCategory.SubCategoryName,
                 Model = t.Model,
                 ProductId = t.ProductId,
                 Diagonal = t.Diagonal,
@@ -37,6 +38,7 @@ public class TelevisionService(ApplicationContext context) : ITelevisionService
             var televisions = await context.Televisions.Select(t => new GetTelevisionDto()
             {
                 Id = t.Id,
+                SubCategory = t.SubCategory.SubCategoryName,
                 Model = t.Model,
                 ProductId = t.ProductId,
                 Diagonal = t.Diagonal,
@@ -59,6 +61,7 @@ public class TelevisionService(ApplicationContext context) : ITelevisionService
         {
             var television = new Television()
             {
+                SubCategoryId = addTelevision.SubCategoryId,
                 ProductId = addTelevision.ProductId,
                 Model = addTelevision.Model,
                 Diagonal = addTelevision.Diagonal,
@@ -82,6 +85,7 @@ public class TelevisionService(ApplicationContext context) : ITelevisionService
             var television = new Television()
             {
                 Id = updateTelevision.Id,
+                SubCategoryId = updateTelevision.SubCategoryId,
                 ProductId = updateTelevision.ProductId,
                 Model = updateTelevision.Model,
                 Diagonal = updateTelevision.Diagonal,

@@ -1,4 +1,5 @@
 using Infrastructure.Data;
+using Infrastructure.Seed;
 using Microsoft.EntityFrameworkCore;
 using WebApi.ExtensionMethods.AuthConfiguration;
 using WebApi.ExtensionMethods.RegisterService;
@@ -30,11 +31,10 @@ try
     var dataContext = serviceProvider.GetRequiredService<ApplicationContext>();
     await dataContext.Database.MigrateAsync();
     
-    // // seed data
-    // var seeder = serviceProvider.GetRequiredService<Seeder>();
-    // await seeder.SeedRole();
-    // await seeder.SeedLocation();
-    // await seeder.SeedUser();
+    // seed data
+    var seeder = serviceProvider.GetRequiredService<Seeder>();
+    await seeder.SeedRole();
+    await seeder.SeedUser();
 }
 catch (Exception)
 {
@@ -42,7 +42,7 @@ catch (Exception)
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

@@ -17,6 +17,7 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             {
                 Id = s.Id,
                 ProductId = s.ProductId,
+                SubCategory = s.SubCategory.SubCategoryName,
                 Model = s.Model,
                 Os = s.Os,
                 Communication = s.Communication,
@@ -50,6 +51,7 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             {
                 Id = s.Id,
                 ProductId = s.ProductId,
+                SubCategory = s.SubCategory.SubCategoryName,
                 Model = s.Model,
                 Os = s.Os,
                 Communication = s.Communication,
@@ -83,6 +85,7 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
         {
             var smartphone = new Smartphone()
             {
+                SubCategoryId = addSmartphone.SubCategoryId,
                 ProductId = addSmartphone.ProductId,
                 Model = addSmartphone.Model,
                 Os = addSmartphone.Os,
@@ -118,6 +121,7 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             var smartphone = new Smartphone()
             {
                 Id = updateSmartphone.Id,
+                SubCategoryId = updateSmartphone.SubCategoryId,
                 ProductId = updateSmartphone.ProductId,
                 Model = updateSmartphone.Model,
                 Os = updateSmartphone.Os,

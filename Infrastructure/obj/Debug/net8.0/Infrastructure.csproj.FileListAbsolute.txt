@@ -13,3 +13,4 @@ C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\Infrastructur
 C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\Infrastructure\obj\Debug\net8.0\refint\Infrastructure.dll
 C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\Infrastructure\obj\Debug\net8.0\Infrastructure.pdb
 C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\Infrastructure\obj\Debug\net8.0\ref\Infrastructure.dll
+C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\Infrastructure\obj\Debug\net8.0\Infrastructure.sourcelink.json

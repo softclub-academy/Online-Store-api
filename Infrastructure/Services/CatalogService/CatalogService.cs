@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Domain.Dtos.CatalogDtos;
+using Domain.Entities;
 using Domain.Response;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -43,18 +44,56 @@ public class CatalogService(ApplicationContext context) : ICatalogService
         }
     }
 
-    public Response<int> AddCatalog(AddCatalogDto addCatalog)
+    public async Task<Response<int>> AddCatalog(AddCatalogDto addCatalog)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var catalog = new Catalog()
+            {
+                CatalogName = addCatalog.CatalogName
+            };
+            await context.Catalogs.AddAsync(catalog);
+            await context.SaveChangesAsync();
+            return new Response<int>(catalog.Id);
+        }
+        catch (Exception e)
+        {
+            return new Response<int>(HttpStatusCode.InternalServerError, e.Message);
+        }
     }
 
-    public Response<int> UpdateCatalog(UpdateCatalogDto updateCatalog)
+    public async Task<Response<int>> UpdateCatalog(UpdateCatalogDto updateCatalog)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var catalog = new Catalog()
+            {
+                Id = updateCatalog.Id,
+                CatalogName = updateCatalog.CatalogName
+            };
+            context.Catalogs.Update(catalog);
+            await context.SaveChangesAsync();
+            return new Response<int>(catalog.Id);
+        }
+        catch (Exception e)
+        {
+            return new Response<int>(HttpStatusCode.InternalServerError, e.Message);
+        }
     }
 
-    public Response<bool> DeleteCatalog(int id)
+    public async Task<Response<bool>> DeleteCatalog(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var catalog = await context.Catalogs.FindAsync(id);
+            if (catalog == null) return new Response<bool>(HttpStatusCode.NotFound, "Catalog not found!");
+            context.Catalogs.Remove(catalog);
+            await context.SaveChangesAsync();
+            return new Response<bool>(true);
+        }
+        catch (Exception e)
+        {
+            return new Response<bool>(HttpStatusCode.InternalServerError, e.Message);
+        }
     }
 }

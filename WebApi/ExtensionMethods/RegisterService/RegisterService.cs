@@ -1,6 +1,15 @@
-﻿using Infrastructure.Data;
+﻿using Domain.Entities;
+using Infrastructure.Data;
+using Infrastructure.Seed;
 using Infrastructure.Services.AccountService;
 using Infrastructure.Services.BrandService;
+using Infrastructure.Services.CatalogService;
+using Infrastructure.Services.CategoryService;
+using Infrastructure.Services.ColorService;
+using Infrastructure.Services.ProductService;
+using Infrastructure.Services.SmarphoneService;
+using Infrastructure.Services.SubCategoryService;
+using Infrastructure.Services.TelevisionService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +24,14 @@ public static class RegisterService
 
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<IBrandService, BrandService>();
+        services.AddScoped<ICatalogService, CatalogService>();
+        services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IColorService, ColorService>();
+        services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<ISmartphoneService, SmartphoneService>();
+        services.AddScoped<ISubCategoryService, SubCategoryService>();
+        services.AddScoped<ITelevisionService, TelevisionService>();
+        services.AddScoped<Seeder>();
         
         services.AddIdentity<IdentityUser, IdentityRole>(config =>
             {

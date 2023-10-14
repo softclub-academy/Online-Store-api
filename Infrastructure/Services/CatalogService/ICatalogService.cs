@@ -7,7 +7,7 @@ public interface ICatalogService
 {
     Task<Response<List<GetCatalogDto>>> GetCatalogs();
     Task<Response<GetCatalogDto>> GetCatalogById(int id);
-    Response<int> AddCatalog(AddCatalogDto addCatalog);
-    Response<int> UpdateCatalog(UpdateCatalogDto updateCatalog);
-    Response<bool> DeleteCatalog(int id);
+    Task<Response<int>> AddCatalog(AddCatalogDto addCatalog);
+    Task<Response<int>> UpdateCatalog(UpdateCatalogDto updateCatalog);
+    Task<Response<bool>> DeleteCatalog(int id);
 }
