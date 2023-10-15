@@ -1,22 +1,24 @@
-﻿using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Domain.Dtos.CategoryDtos;
 using Domain.Response;
 using Infrastructure.Services.CategoryService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller;
 
 public class CategoryController(ICategoryService service) : BaseController
 {
-    [HttpGet("get-categories")]
+    [HttpGet("get-categories"), AllowAnonymous]
     public async Task<IActionResult> GetCategories()
     {
         var result = await service.GetCategories();
         return StatusCode(result.StatusCode, result);
     }
 
-    [HttpGet("get-category-by-id")]
-    public async Task<IActionResult> GetCategoryById(int id)
+    [HttpGet("get-category-by-id"), AllowAnonymous]
+    public async Task<IActionResult> GetCategoryById([Required]int id)
     {
         if (ModelState.IsValid)
         {
@@ -55,7 +57,7 @@ public class CategoryController(ICategoryService service) : BaseController
     }
 
     [HttpDelete("delete-category")]
-    public async Task<IActionResult> DeleteCategory(int id)
+    public async Task<IActionResult> DeleteCategory([Required]int id)
     {
         if (ModelState.IsValid)
         {

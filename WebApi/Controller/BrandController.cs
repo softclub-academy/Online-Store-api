@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Domain.Dtos.BrandDtos;
 using Domain.Response;
@@ -17,7 +18,7 @@ public class BrandController(IBrandService service) : BaseController
     }
 
     [HttpGet("get-brand-by-id")]
-    public async Task<IActionResult> GetBrandById(int id)
+    public async Task<IActionResult> GetBrandById([Required]int id)
     {
         var response = await service.GetBrandById(id);
         return StatusCode(response.StatusCode, response);
@@ -50,7 +51,7 @@ public class BrandController(IBrandService service) : BaseController
     }
 
     [HttpDelete("delete-brand")]
-    public async Task<IActionResult> DeleteBrand(int id)
+    public async Task<IActionResult> DeleteBrand([Required]int id)
     {
         if (ModelState.IsValid)
         {

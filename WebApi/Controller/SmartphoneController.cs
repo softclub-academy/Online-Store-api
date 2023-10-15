@@ -1,22 +1,24 @@
-﻿using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Domain.Dtos.SmartphoneDtos;
 using Domain.Response;
 using Infrastructure.Services.SmarphoneService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller;
 
 public class SmartphoneController(ISmartphoneService service) : BaseController
 {
-    [HttpGet("get-smartphones")]
+    [HttpGet("get-smartphones"), AllowAnonymous]
     public async Task<IActionResult> GetSmartphones()
     {
         var result = await service.GetSmartphones();
         return StatusCode(result.StatusCode, result);
     }
 
-    [HttpGet("get-smartphone")]
-    public async Task<IActionResult> GetSmartphoneById(int id)
+    [HttpGet("get-smartphone"), AllowAnonymous]
+    public async Task<IActionResult> GetSmartphoneById([Required]int id)
     {
         if (ModelState.IsValid)
         {
@@ -55,7 +57,7 @@ public class SmartphoneController(ISmartphoneService service) : BaseController
     }
 
     [HttpDelete("delete-smartphone")]
-    public async Task<IActionResult> DeleteSmartphone(int id)
+    public async Task<IActionResult> DeleteSmartphone([Required]int id)
     {
         if (ModelState.IsValid)
         {

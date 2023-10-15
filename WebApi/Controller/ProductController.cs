@@ -3,21 +3,22 @@ using System.Net;
 using Domain.Dtos.ProductDtos;
 using Domain.Response;
 using Infrastructure.Services.ProductService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller;
 
 public class ProductController(IProductService service) : BaseController
 {
-    [HttpGet("get-products")]
+    [HttpGet("get-products"), AllowAnonymous]
     public async Task<IActionResult> GetProducts()
     {
         var result = await service.GetProducts();
         return StatusCode(result.StatusCode, result);
     }
 
-    [HttpGet("get-product-by-id")]
-    public async Task<IActionResult> GetProductById(int id)
+    [HttpGet("get-product-by-id"), AllowAnonymous]
+    public async Task<IActionResult> GetProductById([Required]int id)
     {
         if (ModelState.IsValid)
         {
@@ -34,7 +35,8 @@ public class ProductController(IProductService service) : BaseController
     {
         if (ModelState.IsValid)
         {
-            var result = await service.AddProduct(addProduct);
+            var user = User.Claims.FirstOrDefault(x => x.Type == "sid")!.Value;
+            var result = await service.AddProduct(addProduct, user);
             return StatusCode(result.StatusCode, result);
         }
 
@@ -47,7 +49,8 @@ public class ProductController(IProductService service) : BaseController
     {
         if (ModelState.IsValid)
         {
-            var result = await service.UpdateProduct(updateProduct);
+            var user = User.Claims.FirstOrDefault(x => x.Type == "sid")!.Value;
+            var result = await service.UpdateProduct(updateProduct, user);
             return StatusCode(result.StatusCode, result);
         }
 
@@ -56,7 +59,7 @@ public class ProductController(IProductService service) : BaseController
     }
     
     [HttpDelete("delete-product")]
-    public async Task<IActionResult> DeleteProduct(int id)
+    public async Task<IActionResult> DeleteProduct([Required]int id)
     {
         if (ModelState.IsValid)
         {

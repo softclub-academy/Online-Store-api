@@ -1,5 +1,7 @@
 ﻿using System.Net;
 using Domain.Dtos.CatalogDtos;
+using Domain.Dtos.CategoryDtos;
+using Domain.Dtos.SubCategoryDtos;
 using Domain.Entities;
 using Domain.Response;
 using Infrastructure.Data;
@@ -16,7 +18,19 @@ public class CatalogService(ApplicationContext context) : ICatalogService
             var catalogs = await context.Catalogs.Select(c => new GetCatalogDto()
             {
                 Id = c.Id,
-                CatalogName = c.CatalogName
+                CatalogName = c.CatalogName,
+                Categories = c.Categories.Select(category => new GetCategoryDto()
+                {
+                    Id = category.Id,
+                    CatalogId = category.CatalogId,
+                    CategoryName = category.CategoryName,
+                    SubCategories = category.SubCategories.Select(s => new GetSubCategoryDto()
+                    {
+                        Id = s.Id,
+                        CategoryId = s.CategoryId,
+                        SubCategoryName = s.SubCategoryName
+                    }).ToList()
+                }).ToList()
             }).ToListAsync();
             return new Response<List<GetCatalogDto>>(catalogs);
         }

@@ -6,6 +6,7 @@ using Infrastructure.Services.BrandService;
 using Infrastructure.Services.CatalogService;
 using Infrastructure.Services.CategoryService;
 using Infrastructure.Services.ColorService;
+using Infrastructure.Services.FileService;
 using Infrastructure.Services.ProductService;
 using Infrastructure.Services.SmarphoneService;
 using Infrastructure.Services.SubCategoryService;
@@ -32,6 +33,7 @@ public static class RegisterService
         services.AddScoped<ISubCategoryService, SubCategoryService>();
         services.AddScoped<ITelevisionService, TelevisionService>();
         services.AddScoped<Seeder>();
+        services.AddScoped<IFileService, FileService>();
         
         services.AddIdentity<IdentityUser, IdentityRole>(config =>
             {

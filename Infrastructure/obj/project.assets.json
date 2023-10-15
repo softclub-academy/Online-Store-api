@@ -495,7 +495,10 @@
         },
         "runtime": {
           "bin/placeholder/Domain.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },

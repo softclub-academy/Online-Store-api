@@ -16,7 +16,6 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             var smartphones = await context.Smartphones.Select(s => new GetSmartphoneDto()
             {
                 Id = s.Id,
-                ProductId = s.ProductId,
                 SubCategory = s.SubCategory.SubCategoryName,
                 Model = s.Model,
                 Os = s.Os,
@@ -50,7 +49,6 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             var smartphone = await context.Smartphones.Select(s => new GetSmartphoneDto()
             {
                 Id = s.Id,
-                ProductId = s.ProductId,
                 SubCategory = s.SubCategory.SubCategoryName,
                 Model = s.Model,
                 Os = s.Os,
@@ -86,7 +84,6 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             var smartphone = new Smartphone()
             {
                 SubCategoryId = addSmartphone.SubCategoryId,
-                ProductId = addSmartphone.ProductId,
                 Model = addSmartphone.Model,
                 Os = addSmartphone.Os,
                 Communication = addSmartphone.Communication,
@@ -122,7 +119,6 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             {
                 Id = updateSmartphone.Id,
                 SubCategoryId = updateSmartphone.SubCategoryId,
-                ProductId = updateSmartphone.ProductId,
                 Model = updateSmartphone.Model,
                 Os = updateSmartphone.Os,
                 Communication = updateSmartphone.Communication,

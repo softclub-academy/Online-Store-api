@@ -1,22 +1,24 @@
-﻿using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Domain.Dtos.CatalogDtos;
 using Domain.Response;
 using Infrastructure.Services.CatalogService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller;
 
 public class CatalogController(ICatalogService service) : BaseController
 {
-    [HttpGet("get-catalogs")]
+    [HttpGet("get-catalogs"), AllowAnonymous]
     public async Task<IActionResult> GetCatalogs()
     {
         var result = await service.GetCatalogs();
         return StatusCode(result.StatusCode, result);
     }
 
-    [HttpGet("get-catalog-by-id")]
-    public async Task<IActionResult> GetCatalogById(int id)
+    [HttpGet("get-catalog-by-id"), AllowAnonymous]
+    public async Task<IActionResult> GetCatalogById([Required]int id)
     {
         if (ModelState.IsValid)
         {
@@ -51,6 +53,19 @@ public class CatalogController(ICatalogService service) : BaseController
         }
 
         var response = new Response<string>(HttpStatusCode.BadRequest, ModelStateErrors());
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpDelete("delete-catalog")]
+    public async Task<IActionResult> DeleteCatalog([Required]int id)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await service.DeleteCatalog(id);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        var response = new Response<bool>(HttpStatusCode.BadRequest, ModelStateErrors());
         return StatusCode(response.StatusCode, response);
     }
 }

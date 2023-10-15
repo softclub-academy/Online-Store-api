@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller;
 
-[Route("[controller]")]
-[Authorize]
+[Route("[controller]"), Authorize]
 public class BaseController : ControllerBase
 {
     [NonAction]

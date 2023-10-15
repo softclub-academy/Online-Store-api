@@ -1,22 +1,24 @@
-﻿using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Domain.Dtos.TelevisionDtos;
 using Domain.Response;
 using Infrastructure.Services.TelevisionService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller;
 
 public class TelevisionController(ITelevisionService service) : BaseController
 {
-    [HttpGet("get-televisions")]
+    [HttpGet("get-televisions"), AllowAnonymous]
     public async Task<IActionResult> GetTelevisions()
     {
         var result = await service.GetTelevisions();
         return StatusCode(result.StatusCode, result);
     }
 
-    [HttpGet("get-television-by-id")]
-    public async Task<IActionResult> GetTelevisionById(int id)
+    [HttpGet("get-television-by-id"), AllowAnonymous]
+    public async Task<IActionResult> GetTelevisionById([Required]int id)
     {
         if (ModelState.IsValid)
         {
@@ -55,7 +57,7 @@ public class TelevisionController(ITelevisionService service) : BaseController
     }
 
     [HttpDelete("delete-television")]
-    public async Task<IActionResult> DeleteTelevision(int id)
+    public async Task<IActionResult> DeleteTelevision([Required]int id)
     {
         if (ModelState.IsValid)
         {

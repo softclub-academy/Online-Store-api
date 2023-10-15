@@ -20,4 +20,5 @@ public class ApplicationContext : IdentityDbContext
     public DbSet<SubCategory> SubCategories { get; set; } = null!;
     public DbSet<Television> Televisions { get; set; } = null!;
     public new DbSet<User> Users { get; set; } = null!;
+    public DbSet<ProductImage> ProductImages { get; set; } = null!;
 }

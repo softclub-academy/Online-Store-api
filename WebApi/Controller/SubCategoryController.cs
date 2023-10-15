@@ -1,22 +1,24 @@
-﻿using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Domain.Dtos.SubCategoryDtos;
 using Domain.Response;
 using Infrastructure.Services.SubCategoryService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller;
 
 public class SubCategoryController(ISubCategoryService service) : BaseController
 {
-    [HttpGet("get-sub-category")]
+    [HttpGet("get-sub-category"), AllowAnonymous]
     public async Task<IActionResult> GetSubCategories()
     {
         var result = await service.GetSubCategories();
         return StatusCode(result.StatusCode, result);
     }
 
-    [HttpGet("get-sub-category-by-id")]
-    public async Task<IActionResult> GetSubCategoryById(int id)
+    [HttpGet("get-sub-category-by-id"), AllowAnonymous]
+    public async Task<IActionResult> GetSubCategoryById([Required]int id)
     {
         if (ModelState.IsValid)
         {
@@ -55,7 +57,7 @@ public class SubCategoryController(ISubCategoryService service) : BaseController
     }
 
     [HttpDelete("delete-sub-category")]
-    public async Task<IActionResult> DeleteSubCategory(int id)
+    public async Task<IActionResult> DeleteSubCategory([Required]int id)
     {
         if (ModelState.IsValid)
         {

@@ -106,11 +106,22 @@ namespace Infrastructure.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("ColorId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<decimal>("DiscountPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -121,6 +132,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Size")
                         .HasColumnType("text");
+
+                    b.Property<int>("SubCategoryId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -135,9 +149,33 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ColorId");
 
+                    b.HasIndex("SubCategoryId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("Domain.Entities.Smartphone", b =>
@@ -193,7 +231,7 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Ram")
@@ -526,6 +564,12 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Entities.SubCategory", "SubCategory")
+                        .WithMany("Products")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entities.User", "User")
                         .WithMany("Products")
                         .HasForeignKey("UserId")
@@ -536,24 +580,33 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Color");
 
+                    b.Navigation("SubCategory");
+
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Smartphone", b =>
+            modelBuilder.Entity("Domain.Entities.ProductImage", b =>
                 {
                     b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Smartphone", b =>
+                {
+                    b.HasOne("Domain.Entities.Product", null)
+                        .WithMany("Smartphones")
+                        .HasForeignKey("ProductId");
+
                     b.HasOne("Domain.Entities.SubCategory", "SubCategory")
-                        .WithMany()
+                        .WithMany("Smartphones")
                         .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
 
                     b.Navigation("SubCategory");
                 });
@@ -572,13 +625,13 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Television", b =>
                 {
                     b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("Televisions")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.SubCategory", "SubCategory")
-                        .WithMany()
+                        .WithMany("Televisions")
                         .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -657,6 +710,24 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Color", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.Navigation("ProductImages");
+
+                    b.Navigation("Smartphones");
+
+                    b.Navigation("Televisions");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SubCategory", b =>
+                {
+                    b.Navigation("Products");
+
+                    b.Navigation("Smartphones");
+
+                    b.Navigation("Televisions");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>

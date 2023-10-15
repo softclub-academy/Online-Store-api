@@ -118,3 +118,4 @@ C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\WebApi\bin\De
 C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\WebApi\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\WebApi\bin\Debug\net8.0\appsettings.Production.json
 C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\WebApi\obj\Debug\net8.0\WebApi.sourcelink.json
+C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\WebApi\bin\Debug\net8.0\WebApi.staticwebassets.runtime.json

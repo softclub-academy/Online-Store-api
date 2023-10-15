@@ -1,22 +1,24 @@
-﻿using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Domain.Dtos.ColorDtos;
 using Domain.Response;
 using Infrastructure.Services.ColorService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller;
 
 public class ColorController(IColorService service) : BaseController
 {
-    [HttpGet("get-colors")]
+    [HttpGet("get-colors"), AllowAnonymous]
     public async Task<IActionResult> GetColors()
     {
         var result = await service.GetColors();
         return StatusCode(result.StatusCode, result);
     }
 
-    [HttpGet("get-color-by-id")]
-    public async Task<IActionResult> GetColorById(int id)
+    [HttpGet("get-color-by-id"), AllowAnonymous]
+    public async Task<IActionResult> GetColorById([Required]int id)
     {
         if (ModelState.IsValid)
         {
@@ -41,7 +43,7 @@ public class ColorController(IColorService service) : BaseController
         return StatusCode(response.StatusCode, response);
     }
 
-    [HttpPut("update-color")]
+    [HttpPut("update-color"), AllowAnonymous]
     public async Task<IActionResult> UpdateColor(UpdateColorDto updateColor)
     {
         if (ModelState.IsValid)
@@ -55,7 +57,7 @@ public class ColorController(IColorService service) : BaseController
     }
 
     [HttpDelete("delete-color")]
-    public async Task<IActionResult> DeleteColor(int id)
+    public async Task<IActionResult> DeleteColor([Required]int id)
     {
         if (ModelState.IsValid)
         {

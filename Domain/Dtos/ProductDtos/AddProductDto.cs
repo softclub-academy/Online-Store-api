@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Domain.Dtos.ProductDtos;
 
 public class AddProductDto : ProductDto
 {
     [Required]
-    public string UserId { get; set; } = null!;
+    public List<IFormFile> Images { get; set; } = null!;
     [Required]
     public int BrandId { get; set; }
     [Required]
