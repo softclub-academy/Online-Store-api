@@ -1,10 +1,12 @@
 ﻿using Domain.Entities;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Seed;
 
-public class Seeder(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+public class Seeder(UserManager<User> userManager, RoleManager<IdentityRole> roleManager,
+    ApplicationContext context)
 {
     public async Task SeedRole()
     {
@@ -26,7 +28,7 @@ public class Seeder(UserManager<IdentityUser> userManager, RoleManager<IdentityR
 
     public async Task SeedUser()
     {
-        var existing = await userManager.FindByNameAsync("SuperAdmin");
+        var existing = await userManager.FindByNameAsync("admin");
         if (existing != null) return;
         var identity = new User()
         {
@@ -36,6 +38,49 @@ public class Seeder(UserManager<IdentityUser> userManager, RoleManager<IdentityR
         };
         await userManager.CreateAsync(identity, "hello123");
         await userManager.AddToRoleAsync(identity, Role.SuperAdmin);
+        var userProfile = new UserProfile()
+        {
+            UserId = identity.Id,
+            FirstName = "",
+            LastName = "",
+            Email = "",
+            PhoneNumber = "",
+            Image = ""
+        };
+        await context.UserProfiles.AddAsync(userProfile);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task SeedCatalog()
+    {
+        var i = 0;
+        foreach (var catalog in new SeedCatalog().Catalogs)
+        {
+            var newCategory = new Category()
+            {
+                CategoryName = catalog
+            };
+            var exist = await context.Categories.AnyAsync(c => c.CategoryName == catalog);
+            if (exist)
+            {
+                i++;
+                continue;
+            }
+            await context.Categories.AddAsync(newCategory);
+            await context.SaveChangesAsync();
+            foreach (var category in new SeedCatalog().Category[i])
+            {
+                var newSubCategory = new SubCategory()
+                {
+                    CategoryId = newCategory.Id,
+                    SubCategoryName = category
+                };
+                await context.SubCategories.AddAsync(newSubCategory);
+                await context.SaveChangesAsync();
+            }
+
+            i++;
+        }
     }
 }
 

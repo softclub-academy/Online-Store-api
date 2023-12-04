@@ -1,5 +1,8 @@
-﻿namespace Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 
+namespace Domain.Entities;
+
+[Index("SubCategoryName", "CategoryId", IsUnique = true)]
 public class SubCategory
 {
     public int Id { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Domain.Dtos.ColorDtos;
+using Domain.Filters;
 using Domain.Response;
 using Infrastructure.Services.ColorService;
 using Microsoft.AspNetCore.Authorization;
@@ -11,9 +12,9 @@ namespace WebApi.Controller;
 public class ColorController(IColorService service) : BaseController
 {
     [HttpGet("get-colors"), AllowAnonymous]
-    public async Task<IActionResult> GetColors()
+    public async Task<IActionResult> GetColors(ColorFilter filter)
     {
-        var result = await service.GetColors();
+        var result = await service.GetColors(filter);
         return StatusCode(result.StatusCode, result);
     }
 
@@ -44,6 +45,7 @@ public class ColorController(IColorService service) : BaseController
     }
 
     [HttpPut("update-color"), AllowAnonymous]
+    [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> UpdateColor(UpdateColorDto updateColor)
     {
         if (ModelState.IsValid)
@@ -57,6 +59,7 @@ public class ColorController(IColorService service) : BaseController
     }
 
     [HttpDelete("delete-color")]
+    [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> DeleteColor([Required]int id)
     {
         if (ModelState.IsValid)

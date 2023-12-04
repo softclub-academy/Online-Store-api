@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "dQ64uuVSLOoEjB5YMJRjYbL76uYCrDm2xAcYjTcYlck=",
+  "Hash": "yTljZ/apNW2HlqPFOEImS8t7gUiTEmEfPdX6FdXme30=",
   "Source": "WebApi",
   "BasePath": "_content/WebApi",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\b1c8bfcf-ed63-4824-9992-f623f0b4ee35+.jpeg",
+      "Identity": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\6ad93383-e7c5-4435-be71-b44a2c819320.jpeg",
       "SourceId": "WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
-      "RelativePath": "images/b1c8bfcf-ed63-4824-9992-f623f0b4ee35+.jpeg",
+      "RelativePath": "images/6ad93383-e7c5-4435-be71-b44a2c819320.jpeg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -33,15 +33,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\b1c8bfcf-ed63-4824-9992-f623f0b4ee35+.jpeg"
+      "OriginalItemSpec": "wwwroot\\images\\6ad93383-e7c5-4435-be71-b44a2c819320.jpeg"
     },
     {
-      "Identity": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\f9479866-0570-42e3-a1eb-4f514d37cc18+.jpeg",
+      "Identity": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg",
       "SourceId": "WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
-      "RelativePath": "images/f9479866-0570-42e3-a1eb-4f514d37cc18+.jpeg",
+      "RelativePath": "images/d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -52,7 +52,26 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\f9479866-0570-42e3-a1eb-4f514d37cc18+.jpeg"
+      "OriginalItemSpec": "wwwroot\\images\\d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg"
+    },
+    {
+      "Identity": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg",
+      "SourceId": "WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\",
+      "BasePath": "_content/WebApi",
+      "RelativePath": "images/fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg"
     }
   ]
 }

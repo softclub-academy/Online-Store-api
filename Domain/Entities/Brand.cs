@@ -1,5 +1,8 @@
-﻿namespace Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 
+namespace Domain.Entities;
+
+[Index("BrandName", IsUnique = true)]
 public class Brand
 {
     public int Id { get; set; }

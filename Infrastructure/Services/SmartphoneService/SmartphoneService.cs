@@ -3,11 +3,12 @@ using Domain.Dtos.SmartphoneDtos;
 using Domain.Entities;
 using Domain.Response;
 using Infrastructure.Data;
+using Infrastructure.Services.ProductService;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Services.SmarphoneService;
+namespace Infrastructure.Services.SmartphoneService;
 
-public class SmartphoneService(ApplicationContext context) : ISmartphoneService
+public class SmartphoneService(ApplicationContext context, IProductService productService) : ISmartphoneService
 {
     public async Task<Response<List<GetSmartphoneDto>>> GetSmartphones()
     {
@@ -16,7 +17,6 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             var smartphones = await context.Smartphones.Select(s => new GetSmartphoneDto()
             {
                 Id = s.Id,
-                SubCategory = s.SubCategory.SubCategoryName,
                 Model = s.Model,
                 Os = s.Os,
                 Communication = s.Communication,
@@ -49,7 +49,6 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             var smartphone = await context.Smartphones.Select(s => new GetSmartphoneDto()
             {
                 Id = s.Id,
-                SubCategory = s.SubCategory.SubCategoryName,
                 Model = s.Model,
                 Os = s.Os,
                 Communication = s.Communication,
@@ -65,7 +64,7 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
                 Diagonal = s.Diagonal,
                 SimCard = s.SimCard,
                 Ram = s.Ram,
-                Rom = s.Rom
+                Rom = s.Rom,
             }).FirstOrDefaultAsync(s => s.Id == id);
             if (smartphone == null)
                 return new Response<GetSmartphoneDto>(HttpStatusCode.NotFound, "Smartphone not found!");
@@ -77,13 +76,13 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
         }
     }
 
-    public async Task<Response<int>> AddSmartphone(AddSmartphoneDto addSmartphone)
+    public async Task<Response<int>> AddSmartphone(AddSmartphoneDto addSmartphone, string userId)
     {
         try
         {
+            var productId = await productService.AddProduct(addSmartphone.AddProductDto, userId);
             var smartphone = new Smartphone()
             {
-                SubCategoryId = addSmartphone.SubCategoryId,
                 Model = addSmartphone.Model,
                 Os = addSmartphone.Os,
                 Communication = addSmartphone.Communication,
@@ -103,7 +102,10 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             };
             await context.Smartphones.AddAsync(smartphone);
             await context.SaveChangesAsync();
-            return new Response<int>(smartphone.Id);
+            var product = await context.Products.FindAsync(productId.Data);
+            product!.SmartphoneId = smartphone.Id;
+            await context.SaveChangesAsync();
+            return new Response<int>(productId.Data);
         }
         catch (Exception e)
         {
@@ -118,7 +120,6 @@ public class SmartphoneService(ApplicationContext context) : ISmartphoneService
             var smartphone = new Smartphone()
             {
                 Id = updateSmartphone.Id,
-                SubCategoryId = updateSmartphone.SubCategoryId,
                 Model = updateSmartphone.Model,
                 Os = updateSmartphone.Os,
                 Communication = updateSmartphone.Communication,

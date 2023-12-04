@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Domain.Dtos.ColorDtos;
+using Domain.Filters;
 using Domain.Response;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -9,20 +10,24 @@ namespace Infrastructure.Services.ColorService;
 
 public class ColorService(ApplicationContext context) : IColorService
 {
-    public async Task<Response<List<GetColorDto>>> GetColors()
+    public async Task<PagedResponse<List<GetColorDto>>> GetColors(ColorFilter filter)
     {
         try
         {
-            var colors = await context.Colors.Select(c => new GetColorDto()
+            var colors = context.Colors.AsQueryable();
+            if (!string.IsNullOrEmpty(filter.ColorName))
+                colors = colors.Where(c => c.ColorName.ToLower().Contains(filter.ColorName.ToLower()));
+            var result = await colors.Select(c => new GetColorDto()
             {
                 Id = c.Id,
                 ColorName = c.ColorName
             }).ToListAsync();
-            return new Response<List<GetColorDto>>(colors);
+            var totalRecord = colors.Count();
+            return new PagedResponse<List<GetColorDto>>(result, filter.PageNumber, filter.PageSize, totalRecord);
         }
         catch (Exception e)
         {
-            return new Response<List<GetColorDto>>(HttpStatusCode.InternalServerError, e.Message);
+            return new PagedResponse<List<GetColorDto>>(HttpStatusCode.InternalServerError, e.Message);
         }
     }
 

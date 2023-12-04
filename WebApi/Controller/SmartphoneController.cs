@@ -2,7 +2,7 @@
 using System.Net;
 using Domain.Dtos.SmartphoneDtos;
 using Domain.Response;
-using Infrastructure.Services.SmarphoneService;
+using Infrastructure.Services.SmartphoneService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,25 +17,26 @@ public class SmartphoneController(ISmartphoneService service) : BaseController
         return StatusCode(result.StatusCode, result);
     }
 
-    [HttpGet("get-smartphone"), AllowAnonymous]
-    public async Task<IActionResult> GetSmartphoneById([Required]int id)
-    {
-        if (ModelState.IsValid)
-        {
-            var result = await service.GetSmartphoneById(id);
-            return StatusCode(result.StatusCode, result);
-        }
-
-        var response = new Response<GetSmartphoneDto>(HttpStatusCode.BadRequest, ModelStateErrors());
-        return StatusCode(response.StatusCode, response);
-    }
+    // [HttpGet("get-smartphone"), AllowAnonymous]
+    // public async Task<IActionResult> GetSmartphoneById([Required]int id)
+    // {
+    //     if (ModelState.IsValid)
+    //     {
+    //         var result = await service.GetSmartphoneById(id);
+    //         return StatusCode(result.StatusCode, result);
+    //     }
+    //
+    //     var response = new Response<GetSmartphoneDto>(HttpStatusCode.BadRequest, ModelStateErrors());
+    //     return StatusCode(response.StatusCode, response);
+    // }
 
     [HttpPost("add-smartphone")]
-    public async Task<IActionResult> AddSmartphone(AddSmartphoneDto addSmartphone)
+    public async Task<IActionResult> AddSmartphone([FromForm]AddSmartphoneDto addSmartphone)
     {
         if (ModelState.IsValid)
         {
-            var result = await service.AddSmartphone(addSmartphone);
+            var userId = User.Claims.FirstOrDefault(x => x.Type == "sid")!.Value;
+            var result = await service.AddSmartphone(addSmartphone, userId);
             return StatusCode(result.StatusCode, result);
         }
 

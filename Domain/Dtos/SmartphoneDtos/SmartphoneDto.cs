@@ -5,8 +5,6 @@ namespace Domain.Dtos.SmartphoneDtos;
 public class SmartphoneDto
 {
     [Required]
-    public int ProductId { get; set; }
-    [Required]
     public string Model { get; set; } = null!;
     [Required]
     public string Os { get; set; } = null!;

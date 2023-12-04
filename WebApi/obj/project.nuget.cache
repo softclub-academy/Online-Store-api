@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "3p/VPBIusywdQnbNJPEOaYxcclG4g4y61FMCbBVrPaqfQfrn7G0f6FqBGi/SSitCgQuqMfzt/Ez0ZKge9sZn/g==",
+  "dgSpecHash": "u6hao6gFbRiLJIc3R2V855bsYqDfsTFvEFx4ecww3a/8BuXJRTL8KOWo+vSo036x30PD0jsKsVNuyAJRAQge5Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
@@ -45,10 +45,10 @@
     "C:\\Users\\Shodmon\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\Shodmon\\.nuget\\packages\\npgsql\\8.0.0-rc.2\\npgsql.8.0.0-rc.2.nupkg.sha512",
     "C:\\Users\\Shodmon\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\8.0.0-rc.2\\npgsql.entityframeworkcore.postgresql.8.0.0-rc.2.nupkg.sha512",
-    "C:\\Users\\Shodmon\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
-    "C:\\Users\\Shodmon\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
-    "C:\\Users\\Shodmon\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
-    "C:\\Users\\Shodmon\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512",
+    "C:\\Users\\Shodmon\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\Shodmon\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\Shodmon\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\Shodmon\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
     "C:\\Users\\Shodmon\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\Shodmon\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\Shodmon\\.nuget\\packages\\system.composition\\6.0.0\\system.composition.6.0.0.nupkg.sha512",

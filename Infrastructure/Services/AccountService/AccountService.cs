@@ -3,27 +3,42 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Domain.Dtos.AccountDtos;
+using Domain.Entities;
 using Domain.Response;
+using Infrastructure.Data;
+using Infrastructure.Seed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Services.AccountService;
 
-public class AccountService(UserManager<IdentityUser> userManager,
-    IConfiguration configuration) : IAccountService
+public class AccountService(UserManager<User> userManager,
+    IConfiguration configuration, ApplicationContext context) : IAccountService
 {
     public async Task<Response<string>> Register(RegisterDto model)
     {
         try
         {
-            var user = new IdentityUser()
+            var user = new User()
             {
                 UserName = model.UserName,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber
             };
             await userManager.CreateAsync(user, model.Password);
+            await userManager.AddToRoleAsync(user, Role.User);
+            var userProfile = new UserProfile()
+            {
+                UserId = user.Id,
+                FirstName = "",
+                LastName = "",
+                Email = "",
+                PhoneNumber = "",
+                Image = ""
+            };
+            await context.UserProfiles.AddAsync(userProfile);
+            await context.SaveChangesAsync();
             return new Response<string>(user.Id);
         }
         catch (Exception e)
@@ -54,16 +69,18 @@ public class AccountService(UserManager<IdentityUser> userManager,
         }
     }
     
-    private async Task<string> GenerateJwtToken(IdentityUser user)
+    private async Task<string> GenerateJwtToken(User user)
     {
+        var userProfile = await context.UserProfiles.FindAsync(user.Id);
         var key = Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!);
         var securityKey = new SymmetricSecurityKey(key);
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         var claims = new List<Claim>()
         {
-            new Claim(JwtRegisteredClaimNames.Sid, user.Id),
-            new Claim(JwtRegisteredClaimNames.Name, user.UserName!),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+            new(JwtRegisteredClaimNames.Sid, user.Id),
+            new(JwtRegisteredClaimNames.Name, user.UserName!),
+            new(JwtRegisteredClaimNames.Email, user.Email!),
+            new(JwtRegisteredClaimNames.Sub, userProfile!.Image!)
         };
         //add roles
         var roles = await userManager.GetRolesAsync(user);
@@ -73,7 +90,7 @@ public class AccountService(UserManager<IdentityUser> userManager,
             issuer: configuration["Jwt:Issuer"],
             audience: configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(1),
+            expires: DateTime.UtcNow.AddHours(10),
             signingCredentials: credentials
         );
 

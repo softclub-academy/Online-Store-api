@@ -36,24 +36,10 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BrandName")
+                        .IsUnique();
+
                     b.ToTable("Brands");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Catalog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CatalogName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Catalogs");
                 });
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
@@ -64,16 +50,14 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CatalogId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CatalogId");
+                    b.HasIndex("CategoryName")
+                        .IsUnique();
 
                     b.ToTable("Categories");
                 });
@@ -91,6 +75,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ColorName")
+                        .IsUnique();
 
                     b.ToTable("Colors");
                 });
@@ -133,6 +120,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Size")
                         .HasColumnType("text");
 
+                    b.Property<int?>("SmartphoneId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("SubCategoryId")
                         .HasColumnType("integer");
 
@@ -148,6 +138,8 @@ namespace Infrastructure.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("ColorId");
+
+                    b.HasIndex("SmartphoneId");
 
                     b.HasIndex("SubCategoryId");
 
@@ -231,9 +223,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Ram")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
@@ -250,7 +239,7 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int>("SubCategoryId")
+                    b.Property<int?>("SubCategoryId")
                         .HasColumnType("integer");
 
                     b.Property<string>("VideoProcessor")
@@ -258,8 +247,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("SubCategoryId");
 
@@ -284,6 +271,9 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("SubCategoryName", "CategoryId")
+                        .IsUnique();
 
                     b.ToTable("SubCategories");
                 });
@@ -325,6 +315,43 @@ namespace Infrastructure.Migrations
                     b.HasIndex("SubCategoryId");
 
                     b.ToTable("Televisions");
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserProfile", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("Dob")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserProfiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -539,17 +566,6 @@ namespace Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Category", b =>
-                {
-                    b.HasOne("Domain.Entities.Catalog", "Catalog")
-                        .WithMany("Categories")
-                        .HasForeignKey("CatalogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Catalog");
-                });
-
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
                     b.HasOne("Domain.Entities.Brand", "Brand")
@@ -563,6 +579,10 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.Entities.Smartphone", "Smartphone")
+                        .WithMany("Products")
+                        .HasForeignKey("SmartphoneId");
 
                     b.HasOne("Domain.Entities.SubCategory", "SubCategory")
                         .WithMany("Products")
@@ -579,6 +599,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("Color");
+
+                    b.Navigation("Smartphone");
 
                     b.Navigation("SubCategory");
 
@@ -598,17 +620,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Smartphone", b =>
                 {
-                    b.HasOne("Domain.Entities.Product", null)
+                    b.HasOne("Domain.Entities.SubCategory", null)
                         .WithMany("Smartphones")
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("Domain.Entities.SubCategory", "SubCategory")
-                        .WithMany("Smartphones")
-                        .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SubCategory");
+                        .HasForeignKey("SubCategoryId");
                 });
 
             modelBuilder.Entity("Domain.Entities.SubCategory", b =>
@@ -625,7 +639,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Television", b =>
                 {
                     b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany("Televisions")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -639,6 +653,17 @@ namespace Infrastructure.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("SubCategory");
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserProfile", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithOne("UserProfile")
+                        .HasForeignKey("Domain.Entities.UserProfile", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -697,11 +722,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Catalog", b =>
-                {
-                    b.Navigation("Categories");
-                });
-
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Navigation("SubCategories");
@@ -715,10 +735,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
                     b.Navigation("ProductImages");
+                });
 
-                    b.Navigation("Smartphones");
-
-                    b.Navigation("Televisions");
+            modelBuilder.Entity("Domain.Entities.Smartphone", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Domain.Entities.SubCategory", b =>
@@ -733,6 +754,9 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("UserProfile")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

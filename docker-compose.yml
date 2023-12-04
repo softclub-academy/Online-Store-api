@@ -19,7 +19,7 @@ services:
     image: shodmon/online-store
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: WebApi/Dockerfile
     ports:
       - "8072:80"
     depends_on:
@@ -27,6 +27,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - online-store:app/wwwroot/images
     networks:
       - postgres-network
 
@@ -36,3 +38,4 @@ networks:
 
 volumes:
   postgresql-data:
+  online-store:

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Domain.Dtos.CategoryDtos;
+using Domain.Dtos.SubCategoryDtos;
 using Domain.Entities;
 using Domain.Response;
 using Infrastructure.Data;
@@ -16,8 +17,12 @@ public class CategoryService(ApplicationContext context) : ICategoryService
             var categories = await context.Categories.Select(c => new GetCategoryDto()
             {
                 Id = c.Id,
-                CatalogId = c.CatalogId,
-                CategoryName = c.CategoryName
+                CategoryName = c.CategoryName,
+                SubCategories = c.SubCategories.Select(s => new GetSubCategoryDto()
+                {
+                    Id = s.Id,
+                    SubCategoryName = s.SubCategoryName
+                }).ToList()
             }).ToListAsync();
             return new Response<List<GetCategoryDto>>(categories);
         }
@@ -34,8 +39,12 @@ public class CategoryService(ApplicationContext context) : ICategoryService
             var category = await context.Categories.Select(c => new GetCategoryDto()
             {
                 Id = c.Id,
-                CatalogId = c.CatalogId,
-                CategoryName = c.CategoryName
+                CategoryName = c.CategoryName,
+                SubCategories = c.SubCategories.Select(s => new GetSubCategoryDto()
+                {
+                    Id = s.Id,
+                    SubCategoryName = s.SubCategoryName
+                }).ToList()
             }).FirstOrDefaultAsync(c => c.Id == id);
             if (category == null) return new Response<GetCategoryDto>(HttpStatusCode.BadRequest, "Category not found!");
             return new Response<GetCategoryDto>(category);
@@ -52,7 +61,6 @@ public class CategoryService(ApplicationContext context) : ICategoryService
         {
             var category = new Category()
             {
-                CatalogId = addCategory.CatalogId,
                 CategoryName = addCategory.CategoryName
             };
             await context.Categories.AddAsync(category);
@@ -72,7 +80,6 @@ public class CategoryService(ApplicationContext context) : ICategoryService
             var category = new Category()
             {
                 Id = updateCategory.Id,
-                CatalogId = updateCategory.CatalogId,
                 CategoryName = updateCategory.CategoryName
             };
             context.Categories.Update(category);

@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Domain.Dtos.ProductDtos;
 
 namespace Domain.Dtos.SmartphoneDtos;
 
 public class AddSmartphoneDto : SmartphoneDto
 {
     [Required]
-    public int SubCategoryId { get; set; }
+    public AddProductDto AddProductDto { get; set; } = null!;
 }

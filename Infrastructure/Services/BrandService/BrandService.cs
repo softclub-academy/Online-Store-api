@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Domain.Dtos.BrandDtos;
 using Domain.Entities;
+using Domain.Filters;
 using Domain.Response;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -10,20 +11,26 @@ namespace Infrastructure.Services.BrandService;
 
 public class BrandService(ApplicationContext context) : IBrandService
 {
-    public async Task<Response<List<GetBrandDto>>> GetBrands()
+    public async Task<PagedResponse<List<GetBrandDto>>> GetBrands(BrandFilter filter)
     {
         try
         {
-            var brands = await context.Brands.Select(b => new GetBrandDto()
+            var brands = context.Brands.AsQueryable();
+            if (!string.IsNullOrEmpty(filter.BrandName))
+                brands = brands.Where(b => b.BrandName.ToLower().Contains(filter.BrandName.ToLower()));
+            if (filter.BrandId != 0)
+                brands = brands.Where(b => b.Id == filter.BrandId);
+            var result = await brands.Select(b => new GetBrandDto()
             {
                 Id = b.Id,
                 BrandName = b.BrandName
-            }).ToListAsync();
-            return new Response<List<GetBrandDto>>(brands);
+            }).Take(filter.PageSize).Skip((filter.PageNumber - 1) * filter.PageSize).ToListAsync();
+            var totalRecord = brands.Count();
+            return new PagedResponse<List<GetBrandDto>>(result, filter.PageNumber, filter.PageSize, totalRecord);
         }
         catch (Exception e)
         {
-            return new Response<List<GetBrandDto>>(HttpStatusCode.InternalServerError, e.Message);
+            return new PagedResponse<List<GetBrandDto>>(HttpStatusCode.InternalServerError, e.Message);
         }
     }
 

@@ -1,5 +1,8 @@
-﻿namespace Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 
+namespace Domain.Entities;
+
+[Index("ColorName", IsUnique = true)]
 public class Color
 {
     public int Id { get; set; }

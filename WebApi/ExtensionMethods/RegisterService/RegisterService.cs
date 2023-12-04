@@ -3,14 +3,14 @@ using Infrastructure.Data;
 using Infrastructure.Seed;
 using Infrastructure.Services.AccountService;
 using Infrastructure.Services.BrandService;
-using Infrastructure.Services.CatalogService;
 using Infrastructure.Services.CategoryService;
 using Infrastructure.Services.ColorService;
 using Infrastructure.Services.FileService;
 using Infrastructure.Services.ProductService;
-using Infrastructure.Services.SmarphoneService;
+using Infrastructure.Services.SmartphoneService;
 using Infrastructure.Services.SubCategoryService;
 using Infrastructure.Services.TelevisionService;
+using Infrastructure.Services.UserProfileService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +25,6 @@ public static class RegisterService
 
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<IBrandService, BrandService>();
-        services.AddScoped<ICatalogService, CatalogService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IColorService, ColorService>();
         services.AddScoped<IProductService, ProductService>();
@@ -34,8 +33,9 @@ public static class RegisterService
         services.AddScoped<ITelevisionService, TelevisionService>();
         services.AddScoped<Seeder>();
         services.AddScoped<IFileService, FileService>();
+        services.AddScoped<IUserProfileService, UserProfileService>();
         
-        services.AddIdentity<IdentityUser, IdentityRole>(config =>
+        services.AddIdentity<User, IdentityRole>(config =>
             {
                 config.Password.RequiredLength = 4;
                 config.Password.RequireDigit = false; // must have at least one digit

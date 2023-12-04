@@ -1,23 +1,24 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Domain.Dtos.BrandDtos;
+using Domain.Filters;
 using Domain.Response;
 using Infrastructure.Services.BrandService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller;
 
 public class BrandController(IBrandService service) : BaseController
 {
-    [HttpGet("get-brands")]
-    public async Task<IActionResult> GetBrands()
+    [HttpGet("get-brands"), AllowAnonymous]
+    public async Task<IActionResult> GetBrands(BrandFilter filter)
     {
-        var response = await service.GetBrands();
+        var response = await service.GetBrands(filter);
         return StatusCode(response.StatusCode, response);
     }
 
-    [HttpGet("get-brand-by-id")]
+    [HttpGet("get-brand-by-id"), AllowAnonymous]
     public async Task<IActionResult> GetBrandById([Required]int id)
     {
         var response = await service.GetBrandById(id);
@@ -38,6 +39,7 @@ public class BrandController(IBrandService service) : BaseController
     }
 
     [HttpPut("update-brand")]
+    [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Update(UpdateBrandDto updateBrand)
     {
         if (ModelState.IsValid)
@@ -51,6 +53,7 @@ public class BrandController(IBrandService service) : BaseController
     }
 
     [HttpDelete("delete-brand")]
+    [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> DeleteBrand([Required]int id)
     {
         if (ModelState.IsValid)

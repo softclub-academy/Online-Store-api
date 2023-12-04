@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Domain.Dtos.ProductDtos;
+using Domain.Filters;
 using Domain.Response;
 using Infrastructure.Services.ProductService;
 using Microsoft.AspNetCore.Authorization;
@@ -11,9 +12,9 @@ namespace WebApi.Controller;
 public class ProductController(IProductService service) : BaseController
 {
     [HttpGet("get-products"), AllowAnonymous]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetProducts(ProductFilter filter)
     {
-        var result = await service.GetProducts();
+        var result = await service.GetProductPage(filter);
         return StatusCode(result.StatusCode, result);
     }
 
@@ -31,7 +32,7 @@ public class ProductController(IProductService service) : BaseController
     }
 
     [HttpPost("add-product")]
-    public async Task<IActionResult> AddProduct(AddProductDto addProduct)
+    public async Task<IActionResult> AddProduct([FromForm]AddProductDto addProduct)
     {
         if (ModelState.IsValid)
         {

@@ -5,28 +5,30 @@
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateProduct : Migration
+    public partial class UpdateUserProfile_image : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Code",
-                table: "Products",
+                name: "Image",
+                table: "UserProfiles",
                 type: "text",
                 nullable: false,
-                oldClrType: typeof(int),
-                oldType: "integer");
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "text",
+                oldNullable: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
-                name: "Code",
-                table: "Products",
-                type: "integer",
-                nullable: false,
+            migrationBuilder.AlterColumn<string>(
+                name: "Image",
+                table: "UserProfiles",
+                type: "text",
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "text");
         }

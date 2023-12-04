@@ -44,6 +44,7 @@ public class SubCategoryController(ISubCategoryService service) : BaseController
     }
 
     [HttpPut("update-sub-category")]
+    [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> UpdateSubCategory(UpdateSubCategoryDto updateSubCategory)
     {
         if (ModelState.IsValid)
@@ -57,6 +58,7 @@ public class SubCategoryController(ISubCategoryService service) : BaseController
     }
 
     [HttpDelete("delete-sub-category")]
+    [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> DeleteSubCategory([Required]int id)
     {
         if (ModelState.IsValid)

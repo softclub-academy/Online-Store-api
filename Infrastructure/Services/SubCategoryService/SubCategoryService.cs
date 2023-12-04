@@ -16,7 +16,6 @@ public class SubCategoryService(ApplicationContext context) : ISubCategoryServic
             var subCategories = await context.SubCategories.Select(s => new GetSubCategoryDto()
             {
                 Id = s.Id,
-                CategoryId = s.CategoryId,
                 SubCategoryName = s.SubCategoryName
             }).ToListAsync();
             return new Response<List<GetSubCategoryDto>>(subCategories);
@@ -34,7 +33,6 @@ public class SubCategoryService(ApplicationContext context) : ISubCategoryServic
             var subCategory = await context.SubCategories.Select(s => new GetSubCategoryDto()
             {
                 Id = s.Id,
-                CategoryId = s.CategoryId,
                 SubCategoryName = s.SubCategoryName
             }).FirstOrDefaultAsync(s => s.Id == id);
             if (subCategory == null)

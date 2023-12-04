@@ -5,8 +5,6 @@ namespace Domain.Entities;
 public class Smartphone
 {
     public int Id { get; set; }
-    public int SubCategoryId { get; set; }
-    public SubCategory SubCategory { get; set; } = null!;
     [MaxLength(100)]
     public string Model { get; set; } = null!;
     [MaxLength(50)]
@@ -38,4 +36,6 @@ public class Smartphone
     public string? Ram { get; set; }
     [MaxLength(50)]
     public string? Rom { get; set; }
+
+    public List<Product> Products { get; set; } = null!;
 }

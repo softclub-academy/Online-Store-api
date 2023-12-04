@@ -8,11 +8,9 @@ public class ApplicationContext : IdentityDbContext
 {
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
     {
-        
     }
 
     public DbSet<Brand> Brands { get; set; } = null!;
-    public DbSet<Catalog> Catalogs { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
     public DbSet<Color> Colors { get; set; } = null!;
     public DbSet<Product> Products { get; set; } = null!;
@@ -21,4 +19,5 @@ public class ApplicationContext : IdentityDbContext
     public DbSet<Television> Televisions { get; set; } = null!;
     public new DbSet<User> Users { get; set; } = null!;
     public DbSet<ProductImage> ProductImages { get; set; } = null!;
+    public DbSet<UserProfile> UserProfiles { get; set; } = null!;
 }

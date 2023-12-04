@@ -19,7 +19,7 @@ public class Product
     public Color Color { get; set; } = null!;
     public int SubCategoryId { get; set; }
     public SubCategory SubCategory { get; set; } = null!;
+    public int? SmartphoneId { get; set; }
+    public Smartphone? Smartphone { get; set; }
     public List<ProductImage> ProductImages { get; set; } = null!;
-    public List<Smartphone> Smartphones { get; set; } = null!;
-    public List<Television> Televisions { get; set; } = null!;
 }
