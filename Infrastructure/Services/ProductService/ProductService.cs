@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using Domain.Dtos.BrandDtos;
+using Domain.Dtos.CartDTOs;
 using Domain.Dtos.ColorDtos;
 using Domain.Dtos.ProductDtos;
-using Domain.Dtos.SmartphoneDtos;
 using Domain.Dtos.UserProfileDtos;
 using Domain.Entities;
 using Domain.Filters;
@@ -15,7 +15,7 @@ namespace Infrastructure.Services.ProductService;
 
 public class ProductService(ApplicationContext context, IFileService fileService) : IProductService
 {
-    public async Task<Response<GetProductPageDto>> GetProductPage(ProductFilter filter)
+    public async Task<Response<GetProductPageDto>> GetProductPage(ProductFilter filter, string? userId)
     {
         try
         {
@@ -23,7 +23,7 @@ public class ProductService(ApplicationContext context, IFileService fileService
             if (!string.IsNullOrEmpty(filter.ProductName))
                 products = products.Where(p => p.ProductName.ToLower().Contains(filter.ProductName));
             if (!string.IsNullOrEmpty(filter.UserId))
-                products = products.Where(p => p.UserId == filter.UserId);
+                products = products.Where(p => p.ApplicationUserId == filter.UserId);
             if (filter.MinPrice != 0 && filter.MaxPrice != 0)
                 products = products.Where(p => p.Price >= filter.MinPrice && p.Price <= filter.MaxPrice);
             if (filter.BrandId != 0)
@@ -34,6 +34,29 @@ public class ProductService(ApplicationContext context, IFileService fileService
                 products = products.Where(p => p.SubCategoryId == filter.SubcategoryId);
             if (filter.ColorId != 0)
                 products = products.Where(p => p.ColorId == filter.ColorId);
+            var allProducts = await (from p in products
+                join c in context.Carts on userId equals c.ApplicationUserId into cart
+                from c in cart.DefaultIfEmpty()
+                select new GetProductsDto()
+                {
+                    Id = p.Id,
+                    ProductName = p.ProductName,
+                    Image = p.ProductImages.Select(i => i.ImageName).FirstOrDefault()!,
+                    Color = p.Color.ColorName,
+                    Quantity = p.Quantity,
+                    Price = p.Price,
+                    HasDiscount = p.HasDiscountPrice,
+                    DiscountPrice = p.DiscountPrice,
+                    ProductInMyCart = c.ProductId == p.Id,
+                    ProductInfoFromCart = c.ProductId == p.Id
+                        ? new CartDto()
+                        {
+                            Id = c.Id,
+                            Quantity = c.Quantity
+                        }
+                        : new CartDto()
+                }).OrderByDescending(x => x.Quantity).AsNoTracking().ToListAsync();
+            if (allProducts.Count == 0) return new Response<GetProductPageDto>(HttpStatusCode.NoContent, "No product!");
             var rangePrice = new GetMinMaxPriceDto()
             {
                 MinPrice = await products.MinAsync(p => p.Price),
@@ -43,25 +66,14 @@ public class ProductService(ApplicationContext context, IFileService fileService
                 select new GetColorDto()
                 {
                     Id = p.Color.Id,
-                    ColorName = p.Color.ColorName
-                }).ToListAsync();
+                    ColorName = p.Color.ColorName,
+                }).Distinct().AsNoTracking().ToListAsync();
             var brands = await (from p in products
                 select new GetBrandDto()
                 {
                     Id = p.Brand.Id,
                     BrandName = p.Brand.BrandName
-                }).ToListAsync();
-            var allProducts = await (from p in products
-                select new GetProductsDto()
-                {
-                    Id = p.Id,
-                    ProductName = p.ProductName,
-                    Image = p.ProductImages.Select(i => i.ImageName).FirstOrDefault()!,
-                    Price = p.Price,
-                    DiscountPrice = p.DiscountPrice
-                }).ToListAsync();
-            // var brands = await brandService.GetBrands(filter.BrandFilter);
-            // var colors = await colorService.GetColors(filter.ColorFilter);
+                }).Distinct().AsNoTracking().ToListAsync();
             var result = new GetProductPageDto()
             {
                 Products = allProducts,
@@ -77,54 +89,68 @@ public class ProductService(ApplicationContext context, IFileService fileService
         }
     }
 
-    public async Task<Response<GetProductDto>> GetProductById(int id)
+    public async Task<Response<GetProductDto>> GetProductById(int id, string? userId)
     {
         try
         {
-            var product = await context.Products.Select(p => new GetProductDto()
-            {
-                Id = p.Id,
-                SubCategoryId = p.SubCategoryId,
-                ProductName = p.ProductName,
-                Description = p.Description,
-                Brand = p.Brand.BrandName,
-                Color = p.Color.ColorName,
-                Size = p.Size,
-                Weight = p.Weight,
-                Price = p.Price,
-                DiscountPrice = p.DiscountPrice,
-                Code = p.Code,
-                Images = p.ProductImages.Select(i => i.ImageName).ToList(),
-                GetSmartphone = p.Smartphone != null
-                    ? new GetSmartphoneDto()
-                    {
-                        Id = p.Smartphone.Id,
-                        Model = p.Smartphone.Model,
-                        Os = p.Smartphone.Os,
-                        Communication = p.Smartphone.Communication,
-                        Processor = p.Smartphone.Processor,
-                        ProcessorFrequency = p.Smartphone.ProcessorFrequency,
-                        NumberOfCores = p.Smartphone.NumberOfCores,
-                        VideoProcessor = p.Smartphone.VideoProcessor,
-                        AspectRatio = p.Smartphone.AspectRatio,
-                        DisplayType = p.Smartphone.DisplayType,
-                        DisplayResolution = p.Smartphone.DisplayResolution,
-                        PixelPerInch = p.Smartphone.PixelPerInch,
-                        ScreenRefreshRate = p.Smartphone.ScreenRefreshRate,
-                        Diagonal = p.Smartphone.Diagonal,
-                        SimCard = p.Smartphone.SimCard,
-                        Ram = p.Smartphone.Ram,
-                        Rom = p.Smartphone.Rom
-                    }
-                    : null,
-                Users = p.User.Products.Where(u => u.Code == p.Code).Select(pr => new GetUserShortInfoDto()
+            var product = await (from p in context.Products
+                join c in context.Carts on userId equals c.ApplicationUserId into cart
+                from c in cart.DefaultIfEmpty()
+                select new GetProductDto()
                 {
-                    UserId = pr.User.Id,
-                    UserName = pr.User.UserName!,
-                    FullName = pr.User.UserProfile.FirstName + " " + pr.User.UserProfile.FirstName,
-                    ImageName = pr.User.UserProfile.Image
-                }).ToList()
-            }).FirstOrDefaultAsync(p => p.Id == id);
+                    Id = p.Id,
+                    SubCategoryId = p.SubCategoryId,
+                    ProductName = p.ProductName,
+                    Description = p.Description,
+                    Brand = p.Brand.BrandName,
+                    Color = p.Color.ColorName,
+                    Size = p.Size,
+                    Weight = p.Weight,
+                    Price = p.Price,
+                    HasDiscount = p.HasDiscountPrice,
+                    DiscountPrice = p.DiscountPrice,
+                    Code = p.Code,
+                    Images = p.ProductImages.Select(i => i.ImageName).ToList(),
+                    ProductInfoFromCart = c.ProductId == p.Id
+                        ? new CartDto()
+                        {
+                            Id = c.Id,
+                            Quantity = c.Quantity
+                        }
+                        : new CartDto(),
+                    /*GetSmartphone = p.Smartphone != null
+                        ? new GetSmartphoneDto()
+                        {
+                            Id = p.Smartphone.Id,
+                            Model = p.Smartphone.Model,
+                            Os = p.Smartphone.Os,
+                            Communication = p.Smartphone.Communication,
+                            Processor = p.Smartphone.Processor,
+                            ProcessorFrequency = p.Smartphone.ProcessorFrequency,
+                            NumberOfCores = p.Smartphone.NumberOfCores,
+                            VideoProcessor = p.Smartphone.VideoProcessor,
+                            AspectRatio = p.Smartphone.AspectRatio,
+                            DisplayType = p.Smartphone.DisplayType,
+                            DisplayResolution = p.Smartphone.DisplayResolution,
+                            PixelPerInch = p.Smartphone.PixelPerInch,
+                            ScreenRefreshRate = p.Smartphone.ScreenRefreshRate,
+                            Diagonal = p.Smartphone.Diagonal,
+                            SimCard = p.Smartphone.SimCard,
+                            Ram = p.Smartphone.Ram,
+                            Rom = p.Smartphone.Rom
+                        }
+                        : null,*/
+                    Users = p.ApplicationUser.Products.Where(u => u.Code == p.Code).Select(pr =>
+                        new GetUserShortInfoDto()
+                        {
+                            UserId = pr.ApplicationUser.Id,
+                            UserName = pr.ApplicationUser.UserName!,
+                            FullName =
+                                pr.ApplicationUser.UserProfile.FirstName + " " +
+                                pr.ApplicationUser.UserProfile.FirstName,
+                            ImageName = pr.ApplicationUser.UserProfile.Image
+                        }).ToList()
+                }).FirstOrDefaultAsync(p => p.Id == id);
             if (product == null) return new Response<GetProductDto>(HttpStatusCode.NotFound, "Product not found");
             return new Response<GetProductDto>(product);
         }
@@ -134,13 +160,26 @@ public class ProductService(ApplicationContext context, IFileService fileService
         }
     }
 
-    public async Task<Response<int>> AddProduct(AddProductDto addProduct, string user)
+    public async Task<Response<int>> AddProduct(AddProductDto addProduct, string userId)
     {
         try
         {
+            var existBrand = await context.Brands.AsNoTracking().AnyAsync(b => b.Id == addProduct.BrandId);
+            if (!existBrand) return new Response<int>(HttpStatusCode.NotFound, "Brand not found!");
+            var existColor = await context.Colors.AsNoTracking().AnyAsync(c => c.Id == addProduct.ColorId);
+            if (!existColor) return new Response<int>(HttpStatusCode.BadRequest, "Color not found!");
+            var existSubCategory =
+                await context.SubCategories.AsNoTracking().AnyAsync(s => s.Id == addProduct.SubCategoryId);
+            if (!existSubCategory) return new Response<int>(HttpStatusCode.NotFound, "Sub category not found!");
+            if (addProduct.HasDiscount && addProduct.DiscountPrice <= 0)
+                return new Response<int>(HttpStatusCode.BadRequest, "The discount price cannot be less then zero!");
+            var existProductCode = await context.Products.AsNoTracking().AnyAsync(x => x.Code == addProduct.Code);
+            if (existProductCode)
+                return new Response<int>(HttpStatusCode.BadRequest,
+                    $"This product code: {addProduct.Code} already exist!");
             var product = new Product()
             {
-                UserId = user,
+                ApplicationUserId = userId,
                 ProductName = addProduct.ProductName,
                 Description = addProduct.Description,
                 Code = addProduct.Code,
@@ -150,14 +189,15 @@ public class ProductService(ApplicationContext context, IFileService fileService
                 Size = addProduct.Size,
                 SubCategoryId = addProduct.SubCategoryId,
                 Price = addProduct.Price,
-                DiscountPrice = addProduct.DiscountPrice,
+                HasDiscountPrice = addProduct.HasDiscount,
+                DiscountPrice = addProduct.HasDiscount ? addProduct.DiscountPrice : 0,
                 Quantity = addProduct.Quantity
             };
             await context.Products.AddAsync(product);
             await context.SaveChangesAsync();
             foreach (var file in addProduct.Images)
             {
-                var imageName = fileService.CreateFile(file);
+                var imageName = await fileService.CreateFile(file);
                 var image = new ProductImage()
                 {
                     ProductId = product.Id,
@@ -175,25 +215,38 @@ public class ProductService(ApplicationContext context, IFileService fileService
         }
     }
 
-    public async Task<Response<int>> UpdateProduct(UpdateProductDto updateProduct, string user)
+    public async Task<Response<int>> UpdateProduct(UpdateProductDto updateProduct, string userId)
     {
         try
         {
-            var product = new Product()
-            {
-                Id = updateProduct.Id,
-                UserId = user,
-                ProductName = updateProduct.ProductName,
-                Description = updateProduct.Description,
-                BrandId = updateProduct.BrandId,
-                ColorId = updateProduct.ColorId,
-                Weight = updateProduct.Weight,
-                Size = updateProduct.Size,
-                SubCategoryId = updateProduct.SubCategoryId,
-                Price = updateProduct.Price,
-                DiscountPrice = updateProduct.DiscountPrice,
-                Quantity = updateProduct.Quantity
-            };
+            var existBrand = await context.Brands.AsNoTracking().AnyAsync(b => b.Id == updateProduct.BrandId);
+            if (!existBrand) return new Response<int>(HttpStatusCode.NotFound, "Brand not found!");
+            var existColor = await context.Colors.AsNoTracking().AnyAsync(c => c.Id == updateProduct.ColorId);
+            if (!existColor) return new Response<int>(HttpStatusCode.BadRequest, "Color not found!");
+            var existSubCategory =
+                await context.SubCategories.AsNoTracking().AnyAsync(s => s.Id == updateProduct.SubCategoryId);
+            if (!existSubCategory) return new Response<int>(HttpStatusCode.NotFound, "Sub category not found!");
+            if (updateProduct.HasDiscount && updateProduct.DiscountPrice <= 0)
+                return new Response<int>(HttpStatusCode.BadRequest, "The discount price cannot be zero!");
+            var existProductCode = await context.Products.AsNoTracking().AnyAsync(x => x.Code == updateProduct.Code);
+            if (existProductCode)
+                return new Response<int>(HttpStatusCode.BadRequest,
+                    $"This product code: {updateProduct.Code} already exist!");
+            var product = await context.Products.FindAsync(updateProduct.Id);
+            if (product == null) return new Response<int>(HttpStatusCode.NotFound, "Product not found!");
+            if (product.ApplicationUserId != userId)
+                return new Response<int>(HttpStatusCode.Forbidden, "You do not have access to update this product.");
+            product.ProductName = updateProduct.ProductName;
+            product.Description = updateProduct.Description;
+            product.BrandId = updateProduct.BrandId;
+            product.ColorId = updateProduct.ColorId;
+            product.Weight = updateProduct.Weight;
+            product.Size = updateProduct.Size;
+            product.SubCategoryId = updateProduct.SubCategoryId;
+            product.Price = updateProduct.Price;
+            product.HasDiscountPrice = updateProduct.HasDiscount;
+            product.DiscountPrice = updateProduct.HasDiscount ? updateProduct.DiscountPrice : 0;
+            product.Quantity = updateProduct.Quantity;
             context.Products.Update(product);
             await context.SaveChangesAsync();
             return new Response<int>(product.Id);
@@ -204,12 +257,14 @@ public class ProductService(ApplicationContext context, IFileService fileService
         }
     }
 
-    public async Task<Response<bool>> DeleteProduct(int id)
+    public async Task<Response<bool>> DeleteProduct(int id, string userId)
     {
         try
         {
             var product = await context.Products.FindAsync(id);
             if (product == null) return new Response<bool>(HttpStatusCode.NotFound, "Product not found!");
+            if (product.ApplicationUserId == userId)
+                return new Response<bool>(HttpStatusCode.Forbidden, "You do not have access to update this product.");
             context.Products.Remove(product);
             await context.SaveChangesAsync();
             return new Response<bool>(true);

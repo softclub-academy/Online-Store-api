@@ -24,7 +24,7 @@ public class BrandService(ApplicationContext context) : IBrandService
             {
                 Id = b.Id,
                 BrandName = b.BrandName
-            }).Take(filter.PageSize).Skip((filter.PageNumber - 1) * filter.PageSize).ToListAsync();
+            }).Take(filter.PageSize).Skip((filter.PageNumber - 1) * filter.PageSize).AsNoTracking().ToListAsync();
             var totalRecord = brands.Count();
             return new PagedResponse<List<GetBrandDto>>(result, filter.PageNumber, filter.PageSize, totalRecord);
         }
@@ -42,7 +42,7 @@ public class BrandService(ApplicationContext context) : IBrandService
             {
                 Id = b.Id,
                 BrandName = b.BrandName
-            }).FirstOrDefaultAsync(b => b.Id == id);
+            }).AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
             if (brand == null) return new Response<GetBrandDto>(HttpStatusCode.BadRequest, "Brand not found!");
             return new Response<GetBrandDto>(brand);
         }
@@ -74,11 +74,9 @@ public class BrandService(ApplicationContext context) : IBrandService
     {
         try
         {
-            var brand = new Brand()
-            {
-                Id = updateBrand.Id,
-                BrandName = updateBrand.BrandName
-            };
+            var brand = await context.Brands.FindAsync(updateBrand.Id);
+            if (brand == null) return new Response<int>(HttpStatusCode.NotFound, "Brand not found!");
+            brand.BrandName = updateBrand.BrandName;
             context.Brands.Update(brand);
             await context.SaveChangesAsync();
             return new Response<int>(brand.Id);

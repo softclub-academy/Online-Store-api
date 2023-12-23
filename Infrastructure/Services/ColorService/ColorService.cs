@@ -21,7 +21,7 @@ public class ColorService(ApplicationContext context) : IColorService
             {
                 Id = c.Id,
                 ColorName = c.ColorName
-            }).ToListAsync();
+            }).AsNoTracking().ToListAsync();
             var totalRecord = colors.Count();
             return new PagedResponse<List<GetColorDto>>(result, filter.PageNumber, filter.PageSize, totalRecord);
         }
@@ -39,9 +39,8 @@ public class ColorService(ApplicationContext context) : IColorService
             {
                 Id = c.Id,
                 ColorName = c.ColorName
-            }).FirstOrDefaultAsync(c => c.Id == id);
-            if (color == null) return new Response<GetColorDto>(HttpStatusCode.NotFound, "Color not found!");
-            return new Response<GetColorDto>(color);
+            }).AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
+            return color == null ? new Response<GetColorDto>(HttpStatusCode.NotFound, "Color not found!") : new Response<GetColorDto>(color);
         }
         catch (Exception e)
         {

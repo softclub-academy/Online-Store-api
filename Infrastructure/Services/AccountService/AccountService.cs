@@ -13,14 +13,14 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Services.AccountService;
 
-public class AccountService(UserManager<User> userManager,
+public class AccountService(UserManager<ApplicationUser> userManager,
     IConfiguration configuration, ApplicationContext context) : IAccountService
 {
     public async Task<Response<string>> Register(RegisterDto model)
     {
         try
         {
-            var user = new User()
+            var user = new ApplicationUser()
             {
                 UserName = model.UserName,
                 Email = model.Email,
@@ -30,7 +30,7 @@ public class AccountService(UserManager<User> userManager,
             await userManager.AddToRoleAsync(user, Role.User);
             var userProfile = new UserProfile()
             {
-                UserId = user.Id,
+                ApplicationUserId = user.Id,
                 FirstName = "",
                 LastName = "",
                 Email = "",
@@ -61,7 +61,7 @@ public class AccountService(UserManager<User> userManager,
                 }
             }
 
-            return new Response<string>("Your UserName or Password is incorrect!!!");
+            return new Response<string>(HttpStatusCode.BadRequest, "Your UserName or Password is incorrect!!!");
         }
         catch (Exception e)
         {
@@ -69,21 +69,21 @@ public class AccountService(UserManager<User> userManager,
         }
     }
     
-    private async Task<string> GenerateJwtToken(User user)
+    private async Task<string> GenerateJwtToken(ApplicationUser applicationUser)
     {
-        var userProfile = await context.UserProfiles.FindAsync(user.Id);
+        var userProfile = await context.UserProfiles.FindAsync(applicationUser.Id);
         var key = Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!);
         var securityKey = new SymmetricSecurityKey(key);
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         var claims = new List<Claim>()
         {
-            new(JwtRegisteredClaimNames.Sid, user.Id),
-            new(JwtRegisteredClaimNames.Name, user.UserName!),
-            new(JwtRegisteredClaimNames.Email, user.Email!),
-            new(JwtRegisteredClaimNames.Sub, userProfile!.Image!)
+            new(JwtRegisteredClaimNames.Sid, applicationUser.Id),
+            new(JwtRegisteredClaimNames.Name, applicationUser.UserName!),
+            new(JwtRegisteredClaimNames.Email, applicationUser.Email!),
+            new(JwtRegisteredClaimNames.Sub, userProfile!.Image)
         };
         //add roles
-        var roles = await userManager.GetRolesAsync(user);
+        var roles = await userManager.GetRolesAsync(applicationUser);
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
         var token = new JwtSecurityToken(

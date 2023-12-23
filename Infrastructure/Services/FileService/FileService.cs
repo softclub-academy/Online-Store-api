@@ -7,15 +7,15 @@ namespace Infrastructure.Services.FileService;
 
 public class FileService(IWebHostEnvironment hostEnvironment) : IFileService
 {
-    public Response<string> CreateFile(IFormFile file)
+    public async Task<Response<string>> CreateFile(IFormFile file)
     {
         try
         {
             var fileName = string.Format($"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}");
             var fullPath = Path.Combine(hostEnvironment.WebRootPath, "images", fileName);
-            using (var stream = new FileStream(fullPath, FileMode.Create))
+            await using (var stream = new FileStream(fullPath, FileMode.Create))
             {
-                file.CopyTo(stream);
+                await file.CopyToAsync(stream);
             }
 
             return new Response<string>(fileName);

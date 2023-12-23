@@ -9,8 +9,8 @@ namespace WebApi.Controller;
 
 public class AccountController(IAccountService service) : BaseController
 {
-    [HttpPost("register"), Authorize(Roles = "SuperAdmin")]
-    public async Task<IActionResult> Register(RegisterDto model)
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody]RegisterDto model)
     {
         if (ModelState.IsValid)
         {
@@ -23,7 +23,7 @@ public class AccountController(IAccountService service) : BaseController
     }
 
     [HttpPost("login"), AllowAnonymous]
-    public async Task<IActionResult> Login(LoginDto model)
+    public async Task<IActionResult> Login([FromBody]LoginDto model)
     {
         if (ModelState.IsValid)
         {

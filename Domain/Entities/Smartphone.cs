@@ -11,6 +11,7 @@ public class Smartphone
     public string Os { get; set; } = null!;
     [MaxLength(50)]
     public string? SimCard { get; set; }
+    [MaxLength(100)]
     public string? Communication { get; set; }
     [MaxLength(50)]
     public string? DisplayResolution { get; set; }

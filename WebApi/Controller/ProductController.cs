@@ -14,7 +14,8 @@ public class ProductController(IProductService service) : BaseController
     [HttpGet("get-products"), AllowAnonymous]
     public async Task<IActionResult> GetProducts(ProductFilter filter)
     {
-        var result = await service.GetProductPage(filter);
+        var userId = User.Claims.FirstOrDefault(x => x.Type == "sid")?.Value;
+        var result = await service.GetProductPage(filter, userId);
         return StatusCode(result.StatusCode, result);
     }
 
@@ -23,7 +24,8 @@ public class ProductController(IProductService service) : BaseController
     {
         if (ModelState.IsValid)
         {
-            var result = await service.GetProductById(id);
+            var userId = User.Claims.FirstOrDefault(x => x.Type == "sid")?.Value;
+            var result = await service.GetProductById(id, userId);
             return StatusCode(result.StatusCode, result);
         }
 
@@ -64,7 +66,8 @@ public class ProductController(IProductService service) : BaseController
     {
         if (ModelState.IsValid)
         {
-            var result = await service.DeleteProduct(id);
+            var userId = User.Claims.First(x => x.Type == "sid").Value;
+            var result = await service.DeleteProduct(id, userId);
             return StatusCode(result.StatusCode, result);
         }
 

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "yTljZ/apNW2HlqPFOEImS8t7gUiTEmEfPdX6FdXme30=",
+  "Hash": "iD3I/Fs9DSrNUiQmfrrXIdjRmBgN9/QMpm/VMJP/F0I=",
   "Source": "WebApi",
   "BasePath": "_content/WebApi",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "WebApi\\wwwroot",
       "Source": "WebApi",
-      "ContentRoot": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\",
+      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\6ad93383-e7c5-4435-be71-b44a2c819320.jpeg",
+      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\6ad93383-e7c5-4435-be71-b44a2c819320.jpeg",
       "SourceId": "WebApi",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\",
+      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
       "RelativePath": "images/6ad93383-e7c5-4435-be71-b44a2c819320.jpeg",
       "AssetKind": "All",
@@ -36,10 +36,48 @@
       "OriginalItemSpec": "wwwroot\\images\\6ad93383-e7c5-4435-be71-b44a2c819320.jpeg"
     },
     {
-      "Identity": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg",
+      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\a0e7aa17-2463-4f6c-bd48-443dfe73a811.jpeg",
       "SourceId": "WebApi",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\",
+      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
+      "BasePath": "_content/WebApi",
+      "RelativePath": "images/a0e7aa17-2463-4f6c-bd48-443dfe73a811.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\a0e7aa17-2463-4f6c-bd48-443dfe73a811.jpeg"
+    },
+    {
+      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\cfb9ee2b-d772-4a88-8086-ec3b140535c1.jpeg",
+      "SourceId": "WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
+      "BasePath": "_content/WebApi",
+      "RelativePath": "images/cfb9ee2b-d772-4a88-8086-ec3b140535c1.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\cfb9ee2b-d772-4a88-8086-ec3b140535c1.jpeg"
+    },
+    {
+      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg",
+      "SourceId": "WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
       "RelativePath": "images/d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg",
       "AssetKind": "All",
@@ -55,10 +93,10 @@
       "OriginalItemSpec": "wwwroot\\images\\d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg"
     },
     {
-      "Identity": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg",
+      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg",
       "SourceId": "WebApi",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Shodmon\\OneDrive\\Рабочий стол\\.net\\OnlineStore\\WebApi\\wwwroot\\",
+      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
       "RelativePath": "images/fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg",
       "AssetKind": "All",

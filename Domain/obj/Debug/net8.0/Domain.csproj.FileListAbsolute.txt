@@ -11,3 +11,16 @@ C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\Domain\obj\De
 C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\Domain\obj\Debug\net8.0\Domain.pdb
 C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\Domain\obj\Debug\net8.0\ref\Domain.dll
 C:\Users\Shodmon\OneDrive\Рабочий стол\.net\OnlineStore\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+D:\Courses\.net\OnlineStore\Domain\bin\Debug\net8.0\Domain.deps.json
+D:\Courses\.net\OnlineStore\Domain\bin\Debug\net8.0\Domain.dll
+D:\Courses\.net\OnlineStore\Domain\bin\Debug\net8.0\Domain.pdb
+D:\Courses\.net\OnlineStore\Domain\obj\Debug\net8.0\Domain.csproj.AssemblyReference.cache
+D:\Courses\.net\OnlineStore\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Courses\.net\OnlineStore\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+D:\Courses\.net\OnlineStore\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+D:\Courses\.net\OnlineStore\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+D:\Courses\.net\OnlineStore\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+D:\Courses\.net\OnlineStore\Domain\obj\Debug\net8.0\Domain.dll
+D:\Courses\.net\OnlineStore\Domain\obj\Debug\net8.0\refint\Domain.dll
+D:\Courses\.net\OnlineStore\Domain\obj\Debug\net8.0\Domain.pdb
+D:\Courses\.net\OnlineStore\Domain\obj\Debug\net8.0\ref\Domain.dll

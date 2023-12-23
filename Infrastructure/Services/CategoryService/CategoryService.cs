@@ -4,11 +4,12 @@ using Domain.Dtos.SubCategoryDtos;
 using Domain.Entities;
 using Domain.Response;
 using Infrastructure.Data;
+using Infrastructure.Services.FileService;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services.CategoryService;
 
-public class CategoryService(ApplicationContext context) : ICategoryService
+public class CategoryService(ApplicationContext context, IFileService fileService) : ICategoryService
 {
     public async Task<Response<List<GetCategoryDto>>> GetCategories()
     {
@@ -18,12 +19,13 @@ public class CategoryService(ApplicationContext context) : ICategoryService
             {
                 Id = c.Id,
                 CategoryName = c.CategoryName,
+                CategoryImage = c.CategoryImage,
                 SubCategories = c.SubCategories.Select(s => new GetSubCategoryDto()
                 {
                     Id = s.Id,
                     SubCategoryName = s.SubCategoryName
                 }).ToList()
-            }).ToListAsync();
+            }).AsNoTracking().ToListAsync();
             return new Response<List<GetCategoryDto>>(categories);
         }
         catch (Exception e)
@@ -40,12 +42,13 @@ public class CategoryService(ApplicationContext context) : ICategoryService
             {
                 Id = c.Id,
                 CategoryName = c.CategoryName,
+                CategoryImage = c.CategoryImage,
                 SubCategories = c.SubCategories.Select(s => new GetSubCategoryDto()
                 {
                     Id = s.Id,
                     SubCategoryName = s.SubCategoryName
                 }).ToList()
-            }).FirstOrDefaultAsync(c => c.Id == id);
+            }).AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
             if (category == null) return new Response<GetCategoryDto>(HttpStatusCode.BadRequest, "Category not found!");
             return new Response<GetCategoryDto>(category);
         }
@@ -59,9 +62,11 @@ public class CategoryService(ApplicationContext context) : ICategoryService
     {
         try
         {
+            var imageName = await fileService.CreateFile(addCategory.CategoryImage);
             var category = new Category()
             {
-                CategoryName = addCategory.CategoryName
+                CategoryName = addCategory.CategoryName,
+                CategoryImage = imageName.Data!
             };
             await context.Categories.AddAsync(category);
             await context.SaveChangesAsync();
@@ -77,11 +82,12 @@ public class CategoryService(ApplicationContext context) : ICategoryService
     {
         try
         {
-            var category = new Category()
-            {
-                Id = updateCategory.Id,
-                CategoryName = updateCategory.CategoryName
-            };
+            var category = await context.Categories.FindAsync(updateCategory.Id);
+            if (category == null) return new Response<int>(HttpStatusCode.NotFound, "Category not found!");
+            fileService.DeleteFile(category.CategoryImage);
+            var imageName = await fileService.CreateFile(updateCategory.CategoryImage);
+            category.CategoryName = updateCategory.CategoryName;
+            category.CategoryImage = imageName.Data!;
             context.Categories.Update(category);
             await context.SaveChangesAsync();
             return new Response<int>(category.Id);
@@ -100,6 +106,7 @@ public class CategoryService(ApplicationContext context) : ICategoryService
             if (category == null) return new Response<bool>(HttpStatusCode.BadRequest, "Category not found!");
             context.Categories.Remove(category);
             await context.SaveChangesAsync();
+            fileService.DeleteFile(category.CategoryImage);
             return new Response<bool>(true);
         }
         catch (Exception e)

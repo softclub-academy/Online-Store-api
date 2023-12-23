@@ -11,6 +11,7 @@ public class ProductDto
     public string? Size { get; set; }
     [Required] public string Code { get; set; } = null!;
     [Required] public decimal Price { get; set; }
-    [Required] public decimal DiscountPrice { get; set; }
+    [Required] public bool HasDiscount { get; set; }
+    public decimal? DiscountPrice { get; set; }
     [Required] public int SubCategoryId { get; set; }
 }

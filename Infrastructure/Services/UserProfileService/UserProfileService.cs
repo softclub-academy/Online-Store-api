@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services.UserProfileService;
 
-public class UserProfileService(ApplicationContext context, UserManager<User> userManager,
+public class UserProfileService(ApplicationContext context, UserManager<ApplicationUser> userManager,
     IFileService fileService) : IUserProfileService
 {
     public async Task<PagedResponse<List<GetUserProfileDto>>> GetUserProfiles(UserProfileFilter filter)
@@ -21,12 +21,12 @@ public class UserProfileService(ApplicationContext context, UserManager<User> us
         {
             var users = context.UserProfiles.AsQueryable();
             if (filter.UserName != null)
-                users = users.Where(u => u.User.UserName == filter.UserName);
+                users = users.Where(u => u.ApplicationUser.UserName == filter.UserName);
             var result = await (from u in users
                 select new GetUserProfileDto()
                 {
-                    UserName = u.User.UserName,
-                    UserId = u.UserId,
+                    UserName = u.ApplicationUser.UserName,
+                    UserId = u.ApplicationUserId,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     Email = u.Email,
@@ -49,8 +49,8 @@ public class UserProfileService(ApplicationContext context, UserManager<User> us
         {
             var user = await context.UserProfiles.Select(u => new GetUserProfileDto()
             {
-                UserName = u.User.UserName!,
-                UserId = u.UserId,
+                UserName = u.ApplicationUser.UserName!,
+                UserId = u.ApplicationUserId,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Email = u.Email,
@@ -83,7 +83,7 @@ public class UserProfileService(ApplicationContext context, UserManager<User> us
             user.PhoneNumber = addUserProfile.PhoneNumber;
             user.Dob = addUserProfile.Dob;
             fileService.DeleteFile(user.Image);
-            var image = fileService.CreateFile(addUserProfile.Image!);
+            var image = await fileService.CreateFile(addUserProfile.Image!);
             user.Image = image.Data!;
             await context.SaveChangesAsync();
             return new Response<bool>(true);

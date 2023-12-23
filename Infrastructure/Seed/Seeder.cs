@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Seed;
 
-public class Seeder(UserManager<User> userManager, RoleManager<IdentityRole> roleManager,
+public class Seeder(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
     ApplicationContext context)
 {
     public async Task SeedRole()
@@ -30,7 +30,7 @@ public class Seeder(UserManager<User> userManager, RoleManager<IdentityRole> rol
     {
         var existing = await userManager.FindByNameAsync("admin");
         if (existing != null) return;
-        var identity = new User()
+        var identity = new ApplicationUser()
         {
             UserName = "admin",
             PhoneNumber = "+992005442641",
@@ -40,7 +40,7 @@ public class Seeder(UserManager<User> userManager, RoleManager<IdentityRole> rol
         await userManager.AddToRoleAsync(identity, Role.SuperAdmin);
         var userProfile = new UserProfile()
         {
-            UserId = identity.Id,
+            ApplicationUserId = identity.Id,
             FirstName = "",
             LastName = "",
             Email = "",
@@ -58,7 +58,8 @@ public class Seeder(UserManager<User> userManager, RoleManager<IdentityRole> rol
         {
             var newCategory = new Category()
             {
-                CategoryName = catalog
+                CategoryName = catalog,
+                CategoryImage = ""
             };
             var exist = await context.Categories.AnyAsync(c => c.CategoryName == catalog);
             if (exist)

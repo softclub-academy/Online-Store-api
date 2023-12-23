@@ -5,6 +5,6 @@ namespace Infrastructure.Services.FileService;
 
 public interface IFileService
 {
-    Response<string> CreateFile(IFormFile file);
+    Task<Response<string>> CreateFile(IFormFile file);
     Response<bool> DeleteFile(string file);
 }

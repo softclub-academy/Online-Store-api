@@ -28,7 +28,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
     volumes:
-      - online-store:app/wwwroot/images
+      - online-store:/app/wwwroot/images
     networks:
       - postgres-network
 

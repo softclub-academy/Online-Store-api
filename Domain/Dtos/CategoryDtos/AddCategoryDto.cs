@@ -1,3 +1,10 @@
-﻿namespace Domain.Dtos.CategoryDtos;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
-public class AddCategoryDto : CategoryDto;
+namespace Domain.Dtos.CategoryDtos;
+
+public class AddCategoryDto : CategoryDto
+{
+    [Required]
+    public IFormFile CategoryImage { get; set; } = null!;
+}

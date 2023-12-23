@@ -3,6 +3,7 @@ using Infrastructure.Data;
 using Infrastructure.Seed;
 using Infrastructure.Services.AccountService;
 using Infrastructure.Services.BrandService;
+using Infrastructure.Services.CartService;
 using Infrastructure.Services.CategoryService;
 using Infrastructure.Services.ColorService;
 using Infrastructure.Services.FileService;
@@ -34,8 +35,9 @@ public static class RegisterService
         services.AddScoped<Seeder>();
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IUserProfileService, UserProfileService>();
+        services.AddScoped<ICartService, CartService>();
         
-        services.AddIdentity<User, IdentityRole>(config =>
+        services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {
                 config.Password.RequiredLength = 4;
                 config.Password.RequireDigit = false; // must have at least one digit
