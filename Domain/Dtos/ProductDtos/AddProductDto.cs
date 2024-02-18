@@ -5,8 +5,7 @@ namespace Domain.Dtos.ProductDtos;
 
 public class AddProductDto : ProductDto
 {
-    [Required]
-    public List<IFormFile> Images { get; set; } = null!;
+    [Required] public List<IFormFile> Images { get; set; } = null!;
     [Required]
     public int BrandId { get; set; }
     [Required]

@@ -42,4 +42,11 @@ public class CartController(ICartService service) : BaseController
         var result = await service.DeleteProductFromCart(id);
         return StatusCode(result.StatusCode, result);
     }
+
+    [HttpDelete("clear-cart")]
+    public async Task<IActionResult> ClearCart()
+    {
+        var result = await service.ClearCart();
+        return StatusCode(result.StatusCode, result);
+    }
 }

@@ -4,12 +4,14 @@ using Domain.Dtos.ProductDtos;
 using Domain.Entities;
 using Domain.Response;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services.CartService;
 
-public class CartService(ApplicationContext context) : ICartService
+public class CartService(ApplicationContext context, IHttpContextAccessor httpContextAccessor) : ICartService
 {
+    private readonly string _userId = httpContextAccessor.HttpContext!.User.Claims.First(x => x.Type == "sid").Value;
     public async Task<Response<List<GetCartDto>>> GetProductsFromCart(string userId)
     {
         try
@@ -33,8 +35,8 @@ public class CartService(ApplicationContext context) : ICartService
                     }
                 }).ToList(),
                 TotalProducts = x.Carts.Sum(p => p.Quantity),
-                TotalPrice = x.Carts.Sum(p => p.Product.Price),
-                TotalDiscountPrice = x.Carts.Sum(p => p.Product.DiscountPrice)
+                TotalPrice = x.Carts.Sum(p => p.Product.Price * p.Quantity),
+                TotalDiscountPrice = x.Carts.Sum(p => p.Product.DiscountPrice * p.Quantity)
             }).AsNoTracking().ToListAsync();
             return new Response<List<GetCartDto>>(cart);
         }
@@ -120,6 +122,23 @@ public class CartService(ApplicationContext context) : ICartService
             context.Carts.Remove(product);
             await context.SaveChangesAsync();
             return new Response<string>("Successfully");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(HttpStatusCode.InternalServerError, e.Message);
+        }
+    }
+
+    public async Task<Response<string>> ClearCart()
+    {
+        try
+        {
+            var productsInCart = await context.Carts.Where(x => x.ApplicationUserId == _userId).ToListAsync();
+            if (productsInCart.Count == 0)
+                return new Response<string>(HttpStatusCode.BadRequest, "Your cart already clear.");
+            context.Carts.RemoveRange(productsInCart);
+            await context.SaveChangesAsync();
+            return new Response<string>("Successfully.");
         }
         catch (Exception e)
         {

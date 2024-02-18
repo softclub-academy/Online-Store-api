@@ -234,9 +234,9 @@ D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\staticwebassets\msbuild.buil
 D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.WebApi.props
 D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\staticwebassets.pack.json
 D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\scopedcss\bundle\WebApi.styles.css
-D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\WebApi.csproj.CopyComplete
 D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\WebApi.dll
 D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\refint\WebApi.dll
 D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\WebApi.pdb
 D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\WebApi.genruntimeconfig.cache
 D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\ref\WebApi.dll
+D:\Courses\.net\OnlineStore\WebApi\obj\Debug\net8.0\WebApi.csproj.Up2Date

@@ -12,7 +12,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services.UserProfileService;
 
-public class UserProfileService(ApplicationContext context, UserManager<ApplicationUser> userManager,
+public class UserProfileService(
+    ApplicationContext context,
+    UserManager<ApplicationUser> userManager,
     IFileService fileService) : IUserProfileService
 {
     public async Task<PagedResponse<List<GetUserProfileDto>>> GetUserProfiles(UserProfileFilter filter)
@@ -21,7 +23,8 @@ public class UserProfileService(ApplicationContext context, UserManager<Applicat
         {
             var users = context.UserProfiles.AsQueryable();
             if (filter.UserName != null)
-                users = users.Where(u => u.ApplicationUser.UserName == filter.UserName);
+                users = users.Where(u => u.ApplicationUser.UserName!.ToLower().Contains(filter.UserName.ToLower().Trim())
+                || (u.FirstName + " " + u.LastName).ToLower().Contains(filter.UserName.ToLower()));
             var result = await (from u in users
                 select new GetUserProfileDto()
                 {
@@ -32,7 +35,14 @@ public class UserProfileService(ApplicationContext context, UserManager<Applicat
                     Email = u.Email,
                     PhoneNumber = u.PhoneNumber,
                     Dob = u.Dob,
-                    Image = u.Image
+                    Image = u.Image,
+                    UserRoles = (from r in context.Roles
+                        join ur in context.UserRoles on r.Id equals ur.RoleId
+                        where ur.UserId == u.ApplicationUserId
+                        select new GetUserRoleDto()
+                        {
+                            Id = r.Id, Name = r.Name
+                        }).ToList()
                 }).Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize).ToListAsync();
             var totalRecord = await users.CountAsync();
             return new PagedResponse<List<GetUserProfileDto>>(result, filter.PageNumber, filter.PageSize, totalRecord);
@@ -43,7 +53,7 @@ public class UserProfileService(ApplicationContext context, UserManager<Applicat
         }
     }
 
-    public async Task<Response<GetUserProfileDto>> GetUserProfileById([Required]string id)
+    public async Task<Response<GetUserProfileDto>> GetUserProfileById([Required] string id)
     {
         try
         {
@@ -57,11 +67,13 @@ public class UserProfileService(ApplicationContext context, UserManager<Applicat
                 PhoneNumber = u.PhoneNumber,
                 Dob = u.Dob,
                 Image = u.Image,
-                UserRoles = u.IdentityRoles.Select(r => new GetUserRoleDto()
-                {
-                    Id = r.Id,
-                    Name = r.Name!
-                }).ToList()
+                UserRoles = (from r in context.Roles
+                    join ur in context.UserRoles on r.Id equals ur.RoleId
+                    where ur.UserId == u.ApplicationUserId
+                    select new GetUserRoleDto()
+                    {
+                        Id = r.Id, Name = r.Name
+                    }).ToList()
             }).FirstOrDefaultAsync(u => u.UserId == id);
             if (user != null) return new Response<GetUserProfileDto>(user);
             return new Response<GetUserProfileDto>(HttpStatusCode.NotFound, "User not found!");
@@ -94,39 +106,60 @@ public class UserProfileService(ApplicationContext context, UserManager<Applicat
         }
     }
 
-    public async Task<Response<bool>> DeleteUser([Required]string id)
-    {
-        var user = await userManager.FindByIdAsync(id);
-        if (user != null)
-        {
-            await userManager.DeleteAsync(user);
-            return new Response<bool>(true);
-        }
-
-        return new Response<bool>(HttpStatusCode.NotFound, "User not found!");
-    }
-
-    public async Task<Response<bool>> AddOrDeleteRoleFromUser(AddOrRemoveRoleFromUserDto addOrRemoveRoleFromUser)
+    public async Task<Response<string>> DeleteUser([Required] string id)
     {
         try
         {
-            var user = await context.Users.FindAsync(addOrRemoveRoleFromUser.UserId);
-            if (user == null) return new Response<bool>(HttpStatusCode.NotFound, "User not found!");
-            var role = await context.Roles.FindAsync(addOrRemoveRoleFromUser.RoleId);
-            if (role == null) return new Response<bool>(HttpStatusCode.NotFound, "Role not found!");
-            var userRole = await userManager.IsInRoleAsync(user, role.Name!);
-            if (userRole)
-            {
-                await userManager.RemoveFromRoleAsync(user, role.Name!);
-                return new Response<bool>(true);
-            }
-
-            await userManager.AddToRoleAsync(user, role.Name!);
-            return new Response<bool>(true);
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null) return new Response<string>(HttpStatusCode.NotFound, "User not found!");
+            await userManager.DeleteAsync(user);
+            return new Response<string>("The user was successfully deleted.");
         }
         catch (Exception e)
         {
-            return new Response<bool>(HttpStatusCode.InternalServerError, e.Message);
+            return new Response<string>(HttpStatusCode.InternalServerError, e.Message);
+        }
+    }
+
+    public async Task<Response<string>> AddRoleFromUser(AddRoleFromUserDto addRoleFromUser)
+    {
+        try
+        {
+            var user = await context.Users.FindAsync(addRoleFromUser.UserId);
+            if (user == null) return new Response<string>(HttpStatusCode.NotFound, "User not found!");
+            var role = await context.Roles.FindAsync(addRoleFromUser.RoleId);
+            if (role == null) return new Response<string>(HttpStatusCode.NotFound, "Role not found!");
+            var userRole = await userManager.IsInRoleAsync(user, role.Name!);
+            if (userRole)
+            {
+                return new Response<string>(HttpStatusCode.Conflict, "This user already has this role.");
+            }
+
+            await userManager.AddToRoleAsync(user, role.Name!);
+            return new Response<string>("Roll added successfully.");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(HttpStatusCode.InternalServerError, e.Message);
+        }
+    }
+
+    public async Task<Response<string>> RemoveRoleFromUser(RemoveRoleFromUserDto roleFromUser)
+    {
+        try
+        {
+            var user = await context.Users.FindAsync(roleFromUser.UserId);
+            if (user == null) return new Response<string>(HttpStatusCode.NotFound, "User not found!");
+            var role = await context.Roles.FindAsync(roleFromUser.RoleId);
+            if (role == null) return new Response<string>(HttpStatusCode.NotFound, "Role not found!");
+            var userRole = await userManager.IsInRoleAsync(user, role.Name!);
+            if (!userRole) return new Response<string>(HttpStatusCode.NotFound, "This user does not have this role.");
+            await userManager.RemoveFromRoleAsync(user, role.Name!);
+            return new Response<string>("Role deleted successfully.");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(HttpStatusCode.InternalServerError, e.Message);
         }
     }
 
@@ -134,7 +167,7 @@ public class UserProfileService(ApplicationContext context, UserManager<Applicat
     {
         try
         {
-            var roles = await context.Roles.Select(r => new GetUserRoleDto()
+            var roles = await context.Roles.Where(x => x.Name != "SuperAdmin").Select(r => new GetUserRoleDto()
             {
                 Id = r.Id,
                 Name = r.Name!

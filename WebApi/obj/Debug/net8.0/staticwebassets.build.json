@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "iD3I/Fs9DSrNUiQmfrrXIdjRmBgN9/QMpm/VMJP/F0I=",
+  "Hash": "t42bQtGZjnBORV4TFbQSiYXsKi1F/yTy/H8t5RixgAo=",
   "Source": "WebApi",
   "BasePath": "_content/WebApi",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\6ad93383-e7c5-4435-be71-b44a2c819320.jpeg",
+      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\dd126a30-c8ea-4950-859f-0f339c7885ec.jpeg",
       "SourceId": "WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
-      "RelativePath": "images/6ad93383-e7c5-4435-be71-b44a2c819320.jpeg",
+      "RelativePath": "images/dd126a30-c8ea-4950-859f-0f339c7885ec.jpeg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -33,15 +33,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\6ad93383-e7c5-4435-be71-b44a2c819320.jpeg"
+      "OriginalItemSpec": "wwwroot\\images\\dd126a30-c8ea-4950-859f-0f339c7885ec.jpeg"
     },
     {
-      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\a0e7aa17-2463-4f6c-bd48-443dfe73a811.jpeg",
+      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\OIP.jpg",
       "SourceId": "WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
-      "RelativePath": "images/a0e7aa17-2463-4f6c-bd48-443dfe73a811.jpeg",
+      "RelativePath": "images/OIP.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -52,64 +52,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\a0e7aa17-2463-4f6c-bd48-443dfe73a811.jpeg"
-    },
-    {
-      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\cfb9ee2b-d772-4a88-8086-ec3b140535c1.jpeg",
-      "SourceId": "WebApi",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
-      "BasePath": "_content/WebApi",
-      "RelativePath": "images/cfb9ee2b-d772-4a88-8086-ec3b140535c1.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\cfb9ee2b-d772-4a88-8086-ec3b140535c1.jpeg"
-    },
-    {
-      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg",
-      "SourceId": "WebApi",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
-      "BasePath": "_content/WebApi",
-      "RelativePath": "images/d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg"
-    },
-    {
-      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg",
-      "SourceId": "WebApi",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
-      "BasePath": "_content/WebApi",
-      "RelativePath": "images/fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg"
+      "OriginalItemSpec": "wwwroot\\images\\OIP.jpg"
     }
   ]
 }

@@ -26,7 +26,7 @@ public class Seeder(UserManager<ApplicationUser> userManager, RoleManager<Identi
         }
     }
 
-    public async Task SeedUser()
+    public async Task SeedAdmin()
     {
         var existing = await userManager.FindByNameAsync("admin");
         if (existing != null) return;
@@ -37,7 +37,7 @@ public class Seeder(UserManager<ApplicationUser> userManager, RoleManager<Identi
             Email = "shinoyatzoda@gmail.com"
         };
         await userManager.CreateAsync(identity, "hello123");
-        await userManager.AddToRoleAsync(identity, Role.SuperAdmin);
+        await userManager.AddToRoleAsync(identity, Role.Admin);
         var userProfile = new UserProfile()
         {
             ApplicationUserId = identity.Id,
@@ -46,6 +46,31 @@ public class Seeder(UserManager<ApplicationUser> userManager, RoleManager<Identi
             Email = "",
             PhoneNumber = "",
             Image = ""
+        };
+        await context.UserProfiles.AddAsync(userProfile);
+        await context.SaveChangesAsync();
+    }
+    
+    public async Task SeedSuperAdmin()
+    {
+        var existing = await userManager.FindByNameAsync("SuperAdmin");
+        if (existing != null) return;
+        var identity = new ApplicationUser()
+        {
+            UserName = "SuperAdmin",
+            PhoneNumber = "+992005442641",
+            Email = "shinoyatzoda@gmail.com"
+        };
+        await userManager.CreateAsync(identity, "SuperAdmin2024");
+        await userManager.AddToRoleAsync(identity, Role.SuperAdmin);
+        var userProfile = new UserProfile()
+        {
+            ApplicationUserId = identity.Id,
+            FirstName = "Shodmon",
+            LastName = "Inoyatzoda",
+            Email = "shinoyatzoda@gmail.com",
+            PhoneNumber = "+992005442641",
+            Image = "OIP.jpg"
         };
         await context.UserProfiles.AddAsync(userProfile);
         await context.SaveChangesAsync();

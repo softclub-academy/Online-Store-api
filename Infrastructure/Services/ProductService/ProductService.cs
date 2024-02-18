@@ -2,6 +2,7 @@
 using Domain.Dtos.BrandDtos;
 using Domain.Dtos.CartDTOs;
 using Domain.Dtos.ColorDtos;
+using Domain.Dtos.ImageDTOs;
 using Domain.Dtos.ProductDtos;
 using Domain.Dtos.UserProfileDtos;
 using Domain.Entities;
@@ -15,7 +16,7 @@ namespace Infrastructure.Services.ProductService;
 
 public class ProductService(ApplicationContext context, IFileService fileService) : IProductService
 {
-    public async Task<Response<GetProductPageDto>> GetProductPage(ProductFilter filter, string? userId)
+    public async Task<PagedResponse<GetProductPageDto>> GetProductPage(ProductFilter filter, string? userId)
     {
         try
         {
@@ -55,8 +56,12 @@ public class ProductService(ApplicationContext context, IFileService fileService
                             Quantity = c.Quantity
                         }
                         : new CartDto()
-                }).OrderByDescending(x => x.Quantity).AsNoTracking().ToListAsync();
-            if (allProducts.Count == 0) return new Response<GetProductPageDto>(HttpStatusCode.NoContent, "No product!");
+                }).OrderByDescending(x => x.Quantity)
+                .AsNoTracking()
+                .Skip((filter.PageNumber - 1) * filter.PageSize)
+                .Take(filter.PageSize)
+                .ToListAsync();
+            if (allProducts.Count == 0) return new PagedResponse<GetProductPageDto>(HttpStatusCode.NoContent, "No product!");
             var rangePrice = new GetMinMaxPriceDto()
             {
                 MinPrice = await products.MinAsync(p => p.Price),
@@ -81,11 +86,12 @@ public class ProductService(ApplicationContext context, IFileService fileService
                 Brands = brands,
                 Colors = colors
             };
-            return new Response<GetProductPageDto>(result);
+            var totalRecord = await products.CountAsync();
+            return new PagedResponse<GetProductPageDto>(result, filter.PageNumber, filter.PageSize, totalRecord);
         }
         catch (Exception e)
         {
-            return new Response<GetProductPageDto>(HttpStatusCode.InternalServerError, e.Message);
+            return new PagedResponse<GetProductPageDto>(HttpStatusCode.InternalServerError, e.Message);
         }
     }
 
@@ -110,7 +116,11 @@ public class ProductService(ApplicationContext context, IFileService fileService
                     HasDiscount = p.HasDiscountPrice,
                     DiscountPrice = p.DiscountPrice,
                     Code = p.Code,
-                    Images = p.ProductImages.Select(i => i.ImageName).ToList(),
+                    Images = p.ProductImages.Select(i => new GetImageDto()
+                    {
+                        Id = i.Id,
+                        Images = i.ImageName
+                    }).ToList(),
                     ProductInfoFromCart = c.ProductId == p.Id
                         ? new CartDto()
                         {
@@ -171,7 +181,7 @@ public class ProductService(ApplicationContext context, IFileService fileService
             var existSubCategory =
                 await context.SubCategories.AsNoTracking().AnyAsync(s => s.Id == addProduct.SubCategoryId);
             if (!existSubCategory) return new Response<int>(HttpStatusCode.NotFound, "Sub category not found!");
-            if (addProduct.HasDiscount && addProduct.DiscountPrice <= 0)
+            if (addProduct is { HasDiscount: true, DiscountPrice: <= 0 })
                 return new Response<int>(HttpStatusCode.BadRequest, "The discount price cannot be less then zero!");
             var existProductCode = await context.Products.AsNoTracking().AnyAsync(x => x.Code == addProduct.Code);
             if (existProductCode)
@@ -226,7 +236,7 @@ public class ProductService(ApplicationContext context, IFileService fileService
             var existSubCategory =
                 await context.SubCategories.AsNoTracking().AnyAsync(s => s.Id == updateProduct.SubCategoryId);
             if (!existSubCategory) return new Response<int>(HttpStatusCode.NotFound, "Sub category not found!");
-            if (updateProduct.HasDiscount && updateProduct.DiscountPrice <= 0)
+            if (updateProduct is { HasDiscount: true, DiscountPrice: <= 0 })
                 return new Response<int>(HttpStatusCode.BadRequest, "The discount price cannot be zero!");
             var existProductCode = await context.Products.AsNoTracking().AnyAsync(x => x.Code == updateProduct.Code);
             if (existProductCode)
@@ -257,14 +267,61 @@ public class ProductService(ApplicationContext context, IFileService fileService
         }
     }
 
+    public async Task<Response<string>> AddImageToProduct(AddImageToProductDto images)
+    {
+        try
+        {
+            var existProduct = await context.Products.Where(product => product.Id == images.ProductId)
+                .FirstOrDefaultAsync();
+            if (existProduct == null) return new Response<string>(HttpStatusCode.NotFound, "Product not found!");
+            var listImages = new List<ProductImage>();
+            foreach (var file in images.Files)
+            {
+                var fileName = await fileService.CreateFile(file);
+                var newImage = new ProductImage()
+                {
+                    ProductId = existProduct.Id,
+                    ImageName = fileName.Data!
+                };
+                listImages.Add(newImage);
+            }
+
+            await context.ProductImages.AddRangeAsync(listImages);
+            await context.SaveChangesAsync();
+            return new Response<string>("Files successfully added.");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(HttpStatusCode.InternalServerError, e.Message);
+        }
+    }
+
+    public async Task<Response<string>> DeleteImageFromProduct(int imageId)
+    {
+        try
+        {
+            var existImage = await context.ProductImages.Where(image => image.Id == imageId).AsNoTracking()
+                .FirstOrDefaultAsync();
+            if (existImage == null) return new Response<string>(HttpStatusCode.NotFound, "File not found!");
+            fileService.DeleteFile(existImage.ImageName);
+            context.ProductImages.Remove(existImage);
+            await context.SaveChangesAsync();
+            return new Response<string>("File successfully deleted.");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(HttpStatusCode.InternalServerError, e.Message);
+        }
+    }
+
     public async Task<Response<bool>> DeleteProduct(int id, string userId)
     {
         try
         {
             var product = await context.Products.FindAsync(id);
             if (product == null) return new Response<bool>(HttpStatusCode.NotFound, "Product not found!");
-            if (product.ApplicationUserId == userId)
-                return new Response<bool>(HttpStatusCode.Forbidden, "You do not have access to update this product.");
+            if (product.ApplicationUserId != userId)
+                return new Response<bool>(HttpStatusCode.Forbidden, "You do not have access to delete this product.");
             context.Products.Remove(product);
             await context.SaveChangesAsync();
             return new Response<bool>(true);

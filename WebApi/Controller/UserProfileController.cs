@@ -13,7 +13,6 @@ namespace WebApi.Controller;
 public class UserProfileController(IUserProfileService service) : BaseController
 {
     [HttpGet("get-user-profiles")]
-    [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> GetUserProfiles(UserProfileFilter filter)
     {
         var result = await service.GetUserProfiles(filter);
@@ -48,7 +47,7 @@ public class UserProfileController(IUserProfileService service) : BaseController
     }
 
     [HttpDelete("delete-user")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteUser([Required]string id)
     {
         if (ModelState.IsValid)
@@ -61,13 +60,27 @@ public class UserProfileController(IUserProfileService service) : BaseController
         return StatusCode(response.StatusCode, response);
     }
 
-    [HttpPost("add-or-remove-role-from-user")]
-    [Authorize(Roles = "SuperAdmin")]
-    public async Task<IActionResult> AddOrRemoveRoleFromUser(AddOrRemoveRoleFromUserDto addOrRemoveRoleFromUserDto)
+    [HttpPost("addrole-from-user")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
+    public async Task<IActionResult> AddRoleFromUser(AddRoleFromUserDto addRoleFromUserDto)
     {
         if (ModelState.IsValid)
         {
-            var result = await service.AddOrDeleteRoleFromUser(addOrRemoveRoleFromUserDto);
+            var result = await service.AddRoleFromUser(addRoleFromUserDto);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        var response = new Response<bool>(HttpStatusCode.BadRequest, ModelStateErrors());
+        return StatusCode(response.StatusCode, response);
+    }
+    
+    [HttpDelete("remove-role-from-user")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
+    public async Task<IActionResult> RemoveRoleFromUser(RemoveRoleFromUserDto roleFromUserDto)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await service.RemoveRoleFromUser(roleFromUserDto);
             return StatusCode(result.StatusCode, result);
         }
 
@@ -76,7 +89,7 @@ public class UserProfileController(IUserProfileService service) : BaseController
     }
 
     [HttpGet("get-user-roles")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> GetUserRoles()
     {
         var result = await service.GetUserRoles();

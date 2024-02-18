@@ -31,7 +31,7 @@ public class CategoryController(ICategoryService service) : BaseController
     }
 
     [HttpPost("add-category")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> AddCategory([FromForm]AddCategoryDto addCategory)
     {
         if (ModelState.IsValid)
@@ -45,7 +45,7 @@ public class CategoryController(ICategoryService service) : BaseController
     }
 
     [HttpPut("update-category")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateCategory([FromForm]UpdateCategoryDto updateCategory)
     {
         if (ModelState.IsValid)
@@ -59,7 +59,7 @@ public class CategoryController(ICategoryService service) : BaseController
     }
 
     [HttpDelete("delete-category")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteCategory([Required]int id)
     {
         if (ModelState.IsValid)

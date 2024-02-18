@@ -56,7 +56,13 @@ public class BrandService(ApplicationContext context) : IBrandService
     {
         try
         {
-            var brand = new Brand()
+            var existBrand = await context.Brands.AnyAsync(x =>
+                x.BrandName.ToLower().Trim().Contains(addBrand.BrandName.ToLower().Trim()));
+            if (existBrand)
+            {
+                return new Response<int>(HttpStatusCode.Conflict, "This brand already exist!");
+            }
+            var brand = new Brand
             {
                 BrandName = addBrand.BrandName
             };

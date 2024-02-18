@@ -5,7 +5,9 @@ namespace Domain.Response;
 public class Response<T>
 {
     public T? Data { get; set; }
+
     public List<string> Errors { get; set; } = new();
+
     public int StatusCode { get; set; }
 
     public Response(T data)

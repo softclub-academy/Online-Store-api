@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
+using Domain.Dtos.ImageDTOs;
 using Domain.Dtos.ProductDtos;
 using Domain.Filters;
 using Domain.Response;
@@ -34,6 +35,7 @@ public class ProductController(IProductService service) : BaseController
     }
 
     [HttpPost("add-product")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> AddProduct([FromForm]AddProductDto addProduct)
     {
         if (ModelState.IsValid)
@@ -48,6 +50,7 @@ public class ProductController(IProductService service) : BaseController
     }
 
     [HttpPut("update-product")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProduct)
     {
         if (ModelState.IsValid)
@@ -60,8 +63,37 @@ public class ProductController(IProductService service) : BaseController
         var response = new Response<int>(HttpStatusCode.BadRequest, ModelStateErrors());
         return StatusCode(response.StatusCode, response);
     }
+
+    [HttpPost("add-image-to-product")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
+    public async Task<IActionResult> AddImageToProduct([FromForm]AddImageToProductDto imageToProduct)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await service.AddImageToProduct(imageToProduct);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        var response = new Response<string>(HttpStatusCode.BadRequest, ModelStateErrors());
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpDelete("delete-image-from-product")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
+    public async Task<IActionResult> DeleteImageFromProduct([Required]int imageId)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await service.DeleteImageFromProduct(imageId);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        var response = new Response<string>(HttpStatusCode.BadRequest, ModelStateErrors());
+        return StatusCode(response.StatusCode, response);
+    }
     
     [HttpDelete("delete-product")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteProduct([Required]int id)
     {
         if (ModelState.IsValid)

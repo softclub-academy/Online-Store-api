@@ -38,4 +38,4 @@ networks:
 
 volumes:
   postgresql-data:
-  online-store:
+  online-store: 

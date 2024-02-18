@@ -1,24 +1,12 @@
 {
   "Files": [
     {
-      "Id": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\6ad93383-e7c5-4435-be71-b44a2c819320.jpeg",
-      "PackagePath": "staticwebassets\\images\\6ad93383-e7c5-4435-be71-b44a2c819320.jpeg"
+      "Id": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\OIP.jpg",
+      "PackagePath": "staticwebassets\\images\\OIP.jpg"
     },
     {
-      "Id": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\a0e7aa17-2463-4f6c-bd48-443dfe73a811.jpeg",
-      "PackagePath": "staticwebassets\\images\\a0e7aa17-2463-4f6c-bd48-443dfe73a811.jpeg"
-    },
-    {
-      "Id": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\cfb9ee2b-d772-4a88-8086-ec3b140535c1.jpeg",
-      "PackagePath": "staticwebassets\\images\\cfb9ee2b-d772-4a88-8086-ec3b140535c1.jpeg"
-    },
-    {
-      "Id": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg",
-      "PackagePath": "staticwebassets\\images\\d521e2dd-a176-4810-9f7f-86ef71ca6374.jpeg"
-    },
-    {
-      "Id": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg",
-      "PackagePath": "staticwebassets\\images\\fa3b7a07-0f53-485c-9b02-50751c8635af.jpeg"
+      "Id": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\dd126a30-c8ea-4950-859f-0f339c7885ec.jpeg",
+      "PackagePath": "staticwebassets\\images\\dd126a30-c8ea-4950-859f-0f339c7885ec.jpeg"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.WebApi.Microsoft.AspNetCore.StaticWebAssets.props",

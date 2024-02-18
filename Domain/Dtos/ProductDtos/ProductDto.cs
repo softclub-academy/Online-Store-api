@@ -4,8 +4,8 @@ namespace Domain.Dtos.ProductDtos;
 
 public class ProductDto
 {
-    [Required] public string ProductName { get; set; } = null!;
-    [Required] public string Description { get; set; } = null!;
+    [Required, MaxLength(100)] public string ProductName { get; set; } = null!;
+    [Required, MaxLength(500)] public string Description { get; set; } = null!;
     [Required] public int Quantity { get; set; }
     public string? Weight { get; set; }
     public string? Size { get; set; }

@@ -10,4 +10,5 @@ public interface ICartService
     Task<Response<string>> IncreaseProductInCart(int id);
     Task<Response<string>> ReduceProductInCart(int id);
     Task<Response<string>> DeleteProductFromCart(int id);
+    Task<Response<string>> ClearCart();
 }

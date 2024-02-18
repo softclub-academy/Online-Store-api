@@ -13,8 +13,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Services.AccountService;
 
-public class AccountService(UserManager<ApplicationUser> userManager,
-    IConfiguration configuration, ApplicationContext context) : IAccountService
+public class AccountService(
+    UserManager<ApplicationUser> userManager,
+    IConfiguration configuration,
+    ApplicationContext context) : IAccountService
 {
     public async Task<Response<string>> Register(RegisterDto model)
     {
@@ -22,9 +24,9 @@ public class AccountService(UserManager<ApplicationUser> userManager,
         {
             var user = new ApplicationUser()
             {
-                UserName = model.UserName,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber
+                UserName = model.UserName.ToLower().Trim(),
+                Email = model.Email.ToLower().Trim(),
+                PhoneNumber = model.PhoneNumber.Trim()
             };
             await userManager.CreateAsync(user, model.Password);
             await userManager.AddToRoleAsync(user, Role.User);
@@ -39,7 +41,7 @@ public class AccountService(UserManager<ApplicationUser> userManager,
             };
             await context.UserProfiles.AddAsync(userProfile);
             await context.SaveChangesAsync();
-            return new Response<string>(user.Id);
+            return new Response<string>("Registered successfully.");
         }
         catch (Exception e)
         {
@@ -51,24 +53,20 @@ public class AccountService(UserManager<ApplicationUser> userManager,
     {
         try
         {
-            var user = await userManager.FindByNameAsync(model.UserName);
-            if (user != null)
-            {
-                var check = await userManager.CheckPasswordAsync(user, model.Password);
-                if (check)
-                {
-                    return new Response<string>(await GenerateJwtToken(user));
-                }
-            }
-
-            return new Response<string>(HttpStatusCode.BadRequest, "Your UserName or Password is incorrect!!!");
+            var user = await userManager.FindByNameAsync(model.UserName.ToLower().Trim());
+            if (user == null)
+                return new Response<string>(HttpStatusCode.BadRequest, "Your UserName or Password is incorrect!!!");
+            var check = await userManager.CheckPasswordAsync(user, model.Password);
+            return check
+                ? new Response<string>(await GenerateJwtToken(user))
+                : new Response<string>(HttpStatusCode.BadRequest, "Your UserName or Password is incorrect!!!");
         }
         catch (Exception e)
         {
             return new Response<string>(HttpStatusCode.InternalServerError, e.Message);
         }
     }
-    
+
     private async Task<string> GenerateJwtToken(ApplicationUser applicationUser)
     {
         var userProfile = await context.UserProfiles.FindAsync(applicationUser.Id);

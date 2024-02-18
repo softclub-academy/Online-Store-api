@@ -2,7 +2,7 @@
 
 namespace Domain.Dtos.UserRoleDtos;
 
-public class AddOrRemoveRoleFromUserDto
+public class AddRoleFromUserDto
 {
     [Required]
     public string UserId { get; set; } = null!;

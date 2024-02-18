@@ -26,6 +26,20 @@ public class FileService(IWebHostEnvironment hostEnvironment) : IFileService
         }
     }
 
+    public async Task<Response<string>> UpdateFile(IFormFile newFile, string oldFile)
+    {
+        try
+        {
+            DeleteFile(oldFile);
+            var fileName = await CreateFile(newFile);
+            return new Response<string>(fileName.Data!);
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(HttpStatusCode.InternalServerError, e.Message);
+        }
+    }
+
     public Response<bool> DeleteFile(string file)
     {
         try

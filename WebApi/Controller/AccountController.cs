@@ -9,7 +9,7 @@ namespace WebApi.Controller;
 
 public class AccountController(IAccountService service) : BaseController
 {
-    [HttpPost("register")]
+    [HttpPost("register"), AllowAnonymous]
     public async Task<IActionResult> Register([FromBody]RegisterDto model)
     {
         if (ModelState.IsValid)

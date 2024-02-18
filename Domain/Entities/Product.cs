@@ -13,7 +13,7 @@ public class Product
     [MaxLength(50)]
     public string Code { get; set; } = null!;
     public int Quantity { get; set; }
-    [MaxLength(50)]
+    [MaxLength(500)]
     public string Description { get; set; } = null!;
     public decimal Price { get; set; }
     public bool HasDiscountPrice { get; set; }

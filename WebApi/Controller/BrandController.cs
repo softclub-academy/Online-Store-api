@@ -26,6 +26,7 @@ public class BrandController(IBrandService service) : BaseController
     }
 
     [HttpPost("add-brand")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> AddBrand(AddBrandDto addBrand)
     {
         if (ModelState.IsValid)
@@ -39,7 +40,7 @@ public class BrandController(IBrandService service) : BaseController
     }
 
     [HttpPut("update-brand")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> Update(UpdateBrandDto updateBrand)
     {
         if (ModelState.IsValid)
@@ -53,7 +54,7 @@ public class BrandController(IBrandService service) : BaseController
     }
 
     [HttpDelete("delete-brand")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteBrand([Required]int id)
     {
         if (ModelState.IsValid)

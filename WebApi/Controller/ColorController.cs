@@ -32,6 +32,7 @@ public class ColorController(IColorService service) : BaseController
     }
 
     [HttpPost("add-color")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> AddColor(AddColorDto addColor)
     {
         if (ModelState.IsValid)
@@ -45,7 +46,7 @@ public class ColorController(IColorService service) : BaseController
     }
 
     [HttpPut("update-color"), AllowAnonymous]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateColor(UpdateColorDto updateColor)
     {
         if (ModelState.IsValid)
@@ -59,7 +60,7 @@ public class ColorController(IColorService service) : BaseController
     }
 
     [HttpDelete("delete-color")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteColor([Required]int id)
     {
         if (ModelState.IsValid)
