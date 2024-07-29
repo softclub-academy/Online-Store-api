@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "aPJJxEN8JevL2lgZ/kokiR1vDLIwshE9AFCwysUVpqzho5E1cd9AinxLsF5TDQ4gnJP3DIKnTBPnkYLyCifCNA==",
+  "dgSpecHash": "I3A0gB2r0lRLCm6RlxaowXN2oqqz02t34wJYty4oYHUznwQcjrPRMcDbFNnE+13sZD7D7S9SX7DXaTUJd/ZD1A==",
   "success": true,
-  "projectFilePath": "D:\\Courses\\.net\\OnlineStore\\WebApi\\WebApi.csproj",
+  "projectFilePath": "D:\\Projects\\OnlineStore\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Shodmon\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Shodmon\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",

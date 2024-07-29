@@ -36,32 +36,32 @@ public class ProductService(ApplicationContext context, IFileService fileService
             if (filter.ColorId != 0)
                 products = products.Where(p => p.ColorId == filter.ColorId);
             var allProducts = await (from p in products
-                join c in context.Carts on userId equals c.ApplicationUserId into cart
-                from c in cart.DefaultIfEmpty()
-                select new GetProductsDto()
-                {
-                    Id = p.Id,
-                    ProductName = p.ProductName,
-                    Image = p.ProductImages.Select(i => i.ImageName).FirstOrDefault()!,
-                    Color = p.Color.ColorName,
-                    Quantity = p.Quantity,
-                    Price = p.Price,
-                    HasDiscount = p.HasDiscountPrice,
-                    DiscountPrice = p.DiscountPrice,
-                    ProductInMyCart = c.ProductId == p.Id,
-                    ProductInfoFromCart = c.ProductId == p.Id
-                        ? new CartDto()
-                        {
-                            Id = c.Id,
-                            Quantity = c.Quantity
-                        }
-                        : new CartDto()
-                }).OrderByDescending(x => x.Quantity)
+                    select new GetProductsDto()
+                    {
+                        Id = p.Id,
+                        ProductName = p.ProductName,
+                        Image = p.ProductImages.Select(i => i.ImageName).FirstOrDefault()!,
+                        Color = p.Color.ColorName,
+                        Quantity = p.Quantity,
+                        Price = p.Price,
+                        HasDiscount = p.HasDiscountPrice,
+                        DiscountPrice = p.DiscountPrice,
+                        ProductInMyCart = p.ApplicationUser.Carts.Any(cart =>
+                            cart.ProductId == p.Id && cart.ApplicationUserId == userId),
+                        ProductInfoFromCart = p.Carts
+                            .Where(cart => cart.ProductId == p.Id && cart.ApplicationUserId == userId).Select(cart =>
+                                new CartDto()
+                                {
+                                    Id = cart.Id,
+                                    Quantity = cart.Quantity
+                                }).FirstOrDefault()
+                    }).OrderByDescending(x => x.Quantity)
                 .AsNoTracking()
                 .Skip((filter.PageNumber - 1) * filter.PageSize)
                 .Take(filter.PageSize)
                 .ToListAsync();
-            if (allProducts.Count == 0) return new PagedResponse<GetProductPageDto>(HttpStatusCode.NoContent, "No product!");
+            if (allProducts.Count == 0)
+                return new PagedResponse<GetProductPageDto>(HttpStatusCode.NoContent, "No product!");
             var rangePrice = new GetMinMaxPriceDto()
             {
                 MinPrice = await products.MinAsync(p => p.Price),

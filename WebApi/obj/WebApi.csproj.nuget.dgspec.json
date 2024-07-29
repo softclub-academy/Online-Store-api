@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Courses\\.net\\OnlineStore\\WebApi\\WebApi.csproj": {}
+    "D:\\Projects\\OnlineStore\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
-    "D:\\Courses\\.net\\OnlineStore\\Domain\\Domain.csproj": {
+    "D:\\Projects\\OnlineStore\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Courses\\.net\\OnlineStore\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\Projects\\OnlineStore\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\Courses\\.net\\OnlineStore\\Domain\\Domain.csproj",
+        "projectPath": "D:\\Projects\\OnlineStore\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\Shodmon\\.nuget\\packages\\",
-        "outputPath": "D:\\Courses\\.net\\OnlineStore\\Domain\\obj\\",
+        "outputPath": "D:\\Projects\\OnlineStore\\Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\Shodmon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -68,21 +73,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Courses\\.net\\OnlineStore\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\Projects\\OnlineStore\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Courses\\.net\\OnlineStore\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\Projects\\OnlineStore\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\Courses\\.net\\OnlineStore\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "D:\\Projects\\OnlineStore\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Shodmon\\.nuget\\packages\\",
-        "outputPath": "D:\\Courses\\.net\\OnlineStore\\Infrastructure\\obj\\",
+        "outputPath": "D:\\Projects\\OnlineStore\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\Shodmon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -90,14 +99,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Courses\\.net\\OnlineStore\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\Courses\\.net\\OnlineStore\\Domain\\Domain.csproj"
+              "D:\\Projects\\OnlineStore\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\Projects\\OnlineStore\\Domain\\Domain.csproj"
               }
             }
           }
@@ -141,21 +151,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Courses\\.net\\OnlineStore\\WebApi\\WebApi.csproj": {
+    "D:\\Projects\\OnlineStore\\WebApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Courses\\.net\\OnlineStore\\WebApi\\WebApi.csproj",
+        "projectUniqueName": "D:\\Projects\\OnlineStore\\WebApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "D:\\Courses\\.net\\OnlineStore\\WebApi\\WebApi.csproj",
+        "projectPath": "D:\\Projects\\OnlineStore\\WebApi\\WebApi.csproj",
         "packagesPath": "C:\\Users\\Shodmon\\.nuget\\packages\\",
-        "outputPath": "D:\\Courses\\.net\\OnlineStore\\WebApi\\obj\\",
+        "outputPath": "D:\\Projects\\OnlineStore\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\Shodmon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -163,17 +177,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Courses\\.net\\OnlineStore\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\Courses\\.net\\OnlineStore\\Domain\\Domain.csproj"
+              "D:\\Projects\\OnlineStore\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\Projects\\OnlineStore\\Domain\\Domain.csproj"
               },
-              "D:\\Courses\\.net\\OnlineStore\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "D:\\Courses\\.net\\OnlineStore\\Infrastructure\\Infrastructure.csproj"
+              "D:\\Projects\\OnlineStore\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "D:\\Projects\\OnlineStore\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -244,7 +259,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

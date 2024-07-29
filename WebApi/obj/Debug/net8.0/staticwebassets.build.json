@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "t42bQtGZjnBORV4TFbQSiYXsKi1F/yTy/H8t5RixgAo=",
+  "Hash": "LmjGYhkF8SBuMt5H4g8KqK8BMs+0KfHLc3hPJC9ueZM=",
   "Source": "WebApi",
   "BasePath": "_content/WebApi",
   "Mode": "Default",
@@ -10,36 +10,17 @@
     {
       "Name": "WebApi\\wwwroot",
       "Source": "WebApi",
-      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
+      "ContentRoot": "D:\\Projects\\OnlineStore\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\dd126a30-c8ea-4950-859f-0f339c7885ec.jpeg",
+      "Identity": "D:\\Projects\\OnlineStore\\WebApi\\wwwroot\\images\\OIP.jpg",
       "SourceId": "WebApi",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
-      "BasePath": "_content/WebApi",
-      "RelativePath": "images/dd126a30-c8ea-4950-859f-0f339c7885ec.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\dd126a30-c8ea-4950-859f-0f339c7885ec.jpeg"
-    },
-    {
-      "Identity": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\images\\OIP.jpg",
-      "SourceId": "WebApi",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Courses\\.net\\OnlineStore\\WebApi\\wwwroot\\",
+      "ContentRoot": "D:\\Projects\\OnlineStore\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
       "RelativePath": "images/OIP.jpg",
       "AssetKind": "All",
