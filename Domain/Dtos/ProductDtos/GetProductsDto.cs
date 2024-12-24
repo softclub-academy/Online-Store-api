@@ -13,5 +13,7 @@ public class GetProductsDto
     public decimal? DiscountPrice { get; set; }
     public int Quantity { get; set; }
     public bool ProductInMyCart { get; set; }
+    public int CategoryId { get; set; }
+    public string? CategoryName { get; set; }
     public CartDto? ProductInfoFromCart { get; set; }
 }

@@ -21,6 +21,7 @@ public class ProductService(ApplicationContext context, IFileService fileService
         try
         {
             var products = context.Products.AsQueryable();
+
             if (!string.IsNullOrEmpty(filter.ProductName))
                 products = products.Where(p => p.ProductName.ToLower().Contains(filter.ProductName));
             if (!string.IsNullOrEmpty(filter.UserId))
@@ -44,10 +45,11 @@ public class ProductService(ApplicationContext context, IFileService fileService
                         Color = p.Color.ColorName,
                         Quantity = p.Quantity,
                         Price = p.Price,
+                        CategoryId = p.SubCategory.CategoryId,
+                        CategoryName = p.SubCategory.Category.CategoryName,
                         HasDiscount = p.HasDiscountPrice,
                         DiscountPrice = p.DiscountPrice,
-                        ProductInMyCart = p.ApplicationUser.Carts.Any(cart =>
-                            cart.ProductId == p.Id && cart.ApplicationUserId == userId),
+                        ProductInMyCart = context.Carts.Any(cart => cart.ProductId == p.Id && cart.ApplicationUserId == userId),
                         ProductInfoFromCart = p.Carts
                             .Where(cart => cart.ProductId == p.Id && cart.ApplicationUserId == userId).Select(cart =>
                                 new CartDto()
@@ -114,6 +116,7 @@ public class ProductService(ApplicationContext context, IFileService fileService
                     Weight = p.Weight,
                     Price = p.Price,
                     HasDiscount = p.HasDiscountPrice,
+                    ProductInMyCart = context.Carts.Any(cart => cart.ProductId == p.Id && cart.ApplicationUserId == userId),
                     DiscountPrice = p.DiscountPrice,
                     Code = p.Code,
                     Images = p.ProductImages.Select(i => new GetImageDto()
