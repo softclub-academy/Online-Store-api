@@ -27,7 +27,7 @@ public class BrandService(ApplicationContext context) : IBrandService
             {
                 Id = b.Id,
                 BrandName = b.BrandName
-            }).Take(filter.PageSize).Skip((filter.PageNumber - 1) * filter.PageSize).AsNoTracking().ToListAsync();
+            }).Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize).AsNoTracking().ToListAsync();
 
             var totalRecord = brands.Count();
 
