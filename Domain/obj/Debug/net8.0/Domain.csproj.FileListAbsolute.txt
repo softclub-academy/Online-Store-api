@@ -37,3 +37,16 @@ D:\Projects\OnlineStore\Domain\obj\Debug\net8.0\Domain.dll
 D:\Projects\OnlineStore\Domain\obj\Debug\net8.0\refint\Domain.dll
 D:\Projects\OnlineStore\Domain\obj\Debug\net8.0\Domain.pdb
 D:\Projects\OnlineStore\Domain\obj\Debug\net8.0\ref\Domain.dll
+D:\Projects\Online-Store-api\Domain\bin\Debug\net8.0\Domain.deps.json
+D:\Projects\Online-Store-api\Domain\bin\Debug\net8.0\Domain.dll
+D:\Projects\Online-Store-api\Domain\bin\Debug\net8.0\Domain.pdb
+D:\Projects\Online-Store-api\Domain\obj\Debug\net8.0\Domain.csproj.AssemblyReference.cache
+D:\Projects\Online-Store-api\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Online-Store-api\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+D:\Projects\Online-Store-api\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+D:\Projects\Online-Store-api\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+D:\Projects\Online-Store-api\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+D:\Projects\Online-Store-api\Domain\obj\Debug\net8.0\Domain.dll
+D:\Projects\Online-Store-api\Domain\obj\Debug\net8.0\refint\Domain.dll
+D:\Projects\Online-Store-api\Domain\obj\Debug\net8.0\Domain.pdb
+D:\Projects\Online-Store-api\Domain\obj\Debug\net8.0\ref\Domain.dll

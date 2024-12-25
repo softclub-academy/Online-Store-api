@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "LmjGYhkF8SBuMt5H4g8KqK8BMs+0KfHLc3hPJC9ueZM=",
+  "Hash": "mXHm4aITpCEhG6JSQc1Ak0wyQiMVxrzjZmPugOb8jro=",
   "Source": "WebApi",
   "BasePath": "_content/WebApi",
   "Mode": "Default",
@@ -10,30 +10,116 @@
     {
       "Name": "WebApi\\wwwroot",
       "Source": "WebApi",
-      "ContentRoot": "D:\\Projects\\OnlineStore\\WebApi\\wwwroot\\",
+      "ContentRoot": "D:\\Projects\\Online-Store-api\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\Projects\\OnlineStore\\WebApi\\wwwroot\\images\\OIP.jpg",
+      "Identity": "D:\\Projects\\Online-Store-api\\WebApi\\wwwroot\\images\\OIP.jpg",
       "SourceId": "WebApi",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Projects\\OnlineStore\\WebApi\\wwwroot\\",
+      "ContentRoot": "D:\\Projects\\Online-Store-api\\WebApi\\wwwroot\\",
       "BasePath": "_content/WebApi",
-      "RelativePath": "images/OIP.jpg",
+      "RelativePath": "images/OIP#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeBehavior": "",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+      "Fingerprint": "nd8wzgbkw9",
+      "Integrity": "lRr3RPk1X1fe0qvf+XxaJOoPZa8gPx78PiKi9AFD6lA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\OIP.jpg"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "images/OIP.jpg",
+      "AssetFile": "D:\\Projects\\Online-Store-api\\WebApi\\wwwroot\\images\\OIP.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "12392"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"lRr3RPk1X1fe0qvf+XxaJOoPZa8gPx78PiKi9AFD6lA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 24 Dec 2024 10:53:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-lRr3RPk1X1fe0qvf+XxaJOoPZa8gPx78PiKi9AFD6lA="
+        }
+      ]
+    },
+    {
+      "Route": "images/OIP.nd8wzgbkw9.jpg",
+      "AssetFile": "D:\\Projects\\Online-Store-api\\WebApi\\wwwroot\\images\\OIP.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "12392"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"lRr3RPk1X1fe0qvf+XxaJOoPZa8gPx78PiKi9AFD6lA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 24 Dec 2024 10:53:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "nd8wzgbkw9"
+        },
+        {
+          "Name": "label",
+          "Value": "images/OIP.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-lRr3RPk1X1fe0qvf+XxaJOoPZa8gPx78PiKi9AFD6lA="
+        }
+      ]
     }
   ]
 }

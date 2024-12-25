@@ -1,8 +1,12 @@
 {
   "Files": [
     {
-      "Id": "D:\\Projects\\OnlineStore\\WebApi\\wwwroot\\images\\OIP.jpg",
+      "Id": "D:\\Projects\\Online-Store-api\\WebApi\\wwwroot\\images\\OIP.jpg",
       "PackagePath": "staticwebassets\\images\\OIP.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.WebApi.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.WebApi.Microsoft.AspNetCore.StaticWebAssets.props",

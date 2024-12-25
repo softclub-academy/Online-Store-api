@@ -16,16 +16,21 @@ public class BrandService(ApplicationContext context) : IBrandService
         try
         {
             var brands = context.Brands.AsQueryable();
+
             if (!string.IsNullOrEmpty(filter.BrandName))
                 brands = brands.Where(b => b.BrandName.ToLower().Contains(filter.BrandName.ToLower()));
+
             if (filter.BrandId != 0)
                 brands = brands.Where(b => b.Id == filter.BrandId);
+
             var result = await brands.Select(b => new GetBrandDto()
             {
                 Id = b.Id,
                 BrandName = b.BrandName
             }).Take(filter.PageSize).Skip((filter.PageNumber - 1) * filter.PageSize).AsNoTracking().ToListAsync();
+
             var totalRecord = brands.Count();
+
             return new PagedResponse<List<GetBrandDto>>(result, filter.PageNumber, filter.PageSize, totalRecord);
         }
         catch (Exception e)
@@ -43,6 +48,7 @@ public class BrandService(ApplicationContext context) : IBrandService
                 Id = b.Id,
                 BrandName = b.BrandName
             }).AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
+
             if (brand == null) return new Response<GetBrandDto>(HttpStatusCode.BadRequest, "Brand not found!");
             return new Response<GetBrandDto>(brand);
         }
@@ -57,17 +63,20 @@ public class BrandService(ApplicationContext context) : IBrandService
         try
         {
             var existBrand = await context.Brands.AnyAsync(x =>
-                x.BrandName.ToLower().Trim().Contains(addBrand.BrandName.ToLower().Trim()));
+                x.BrandName.ToLower().Trim() == addBrand.BrandName.ToLower().Trim());
             if (existBrand)
             {
-                return new Response<int>(HttpStatusCode.Conflict, "This brand already exist!");
+                return new Response<int>(HttpStatusCode.BadRequest, "This brand already exist!");
             }
+
             var brand = new Brand
             {
                 BrandName = addBrand.BrandName
             };
+
             await context.Brands.AddAsync(brand);
             await context.SaveChangesAsync();
+
             return new Response<int>(brand.Id);
         }
         catch (Exception e)
